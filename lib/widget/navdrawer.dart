@@ -119,7 +119,7 @@ class _NavDrawerState extends State<NavDrawer> {
                           height: 10,
                         ),
                         DrawerItem(
-                            name: 'Message Notifications',
+                            name: 'Alert',
                             icon: Icons.notifications_active,
                             onPressed: () {
                               Navigator.push(

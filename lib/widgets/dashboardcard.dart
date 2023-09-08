@@ -1,10 +1,8 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
-
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 import 'package:atusecurityapp/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:glassmorphism/glassmorphism.dart';
-
 import '../constants/textstyle.dart';
 
 class DashboarddCards extends StatelessWidget {
@@ -14,18 +12,18 @@ class DashboarddCards extends StatelessWidget {
   // final Color cardColor;
   final Widget navigatePage;
 
-  const DashboarddCards({
-    super.key,
-    required this.title,
-    required this.cardIcon,
-    required this.counter,
-    required this.navigatePage
-  });
+  const DashboarddCards(
+      {super.key,
+      required this.title,
+      required this.cardIcon,
+      required this.counter,
+      required this.navigatePage});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>navigatePage)),
+      onTap: () => Navigator.push(
+          context, MaterialPageRoute(builder: (context) => navigatePage)),
       child: GlassmorphicContainer(
         borderRadius: 10,
         width: 170,
@@ -49,8 +47,8 @@ class DashboarddCards extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xff142831).withAlpha(70),
-              Color(0xFFffffff).withAlpha(70),
+              Color.fromARGB(255, 94, 191, 235),
+              Color(0xFFffffff)
             ],
             stops: [
               0.3,

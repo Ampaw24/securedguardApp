@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:atusecurityapp/constants/colors.dart';
 import 'package:atusecurityapp/screens/Login-SignUp/login.dart';
 import 'package:atusecurityapp/widget/curledContainer.dart';
@@ -22,7 +24,7 @@ class _SignUpPageState extends State<SignUpPage> {
   void verifyMe(String username, String password, String mail) {
     if (username.isEmpty) {
 
-      print("Helo ");
+      print("Helo");
     }
   }
 
