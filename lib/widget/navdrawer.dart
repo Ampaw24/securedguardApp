@@ -1,5 +1,9 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'package:atusecurityapp/screens/annoucement/announcements.dart';
+import 'package:atusecurityapp/screens/annoucement/messageview.dart';
+import 'package:atusecurityapp/screens/profile.dart';
+import 'package:atusecurityapp/screens/reportscreen/reportpage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:atusecurityapp/widget/draweritem.dart';
@@ -54,7 +58,7 @@ class _NavDrawerState extends State<NavDrawer> {
                         ),
                         Text('SECURED GUARD APP',
                             style: GoogleFonts.montserrat(
-                                fontSize: 20, fontWeight: FontWeight.w900))
+                                fontSize: 15, fontWeight: FontWeight.w900))
                       ],
                     ),
                   ),
@@ -79,7 +83,12 @@ class _NavDrawerState extends State<NavDrawer> {
                         DrawerItem(
                           name: 'Edit Profile',
                           icon: Icons.edit,
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProfilePage()));
+                          },
                         ),
                         const SizedBox(
                           height: 10,
@@ -87,7 +96,12 @@ class _NavDrawerState extends State<NavDrawer> {
                         DrawerItem(
                           name: 'Reports',
                           icon: Icons.report,
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ReportPage()));
+                          },
                         ),
                         const SizedBox(
                           height: 10,
@@ -95,15 +109,23 @@ class _NavDrawerState extends State<NavDrawer> {
                         DrawerItem(
                             name: 'Annoucements',
                             icon: Icons.newspaper,
-                            onPressed: () {}),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Annoucements()));
+                            }),
                         const SizedBox(
                           height: 10,
                         ),
                         DrawerItem(
-                            name: 'Notifications',
+                            name: 'Message Notifications',
                             icon: Icons.notifications_active,
                             onPressed: () {
-                              ;
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MessageView()));
                             }),
                         const SizedBox(
                           height: 10,

@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:atusecurityapp/constants/textstyle.dart';
 import 'package:atusecurityapp/constants/colors.dart';
 
-
 class Annoucements extends StatefulWidget {
   const Annoucements({super.key});
 
@@ -23,6 +22,7 @@ class _AnnoucementsState extends State<Annoucements> {
     'Course C',
     'Course D',
   ];
+  String defaultValue = 'Select Annoucement Audience';
   String? _selectedCourse;
   List<DropdownMenuItem> getDropdownData() {
     List<DropdownMenuItem<String>> dropdownItem = [];
@@ -59,8 +59,15 @@ class _AnnoucementsState extends State<Annoucements> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
+                Text(
+                  "Create Announcement",
+                  style: GoogleFonts.montserrat(
+                      fontSize: 18,
+                      color: AppColors.btnBlue,
+                      fontWeight: FontWeight.w500),
+                ),
                 SizedBox(
-                  height: 40,
+                  height: 20,
                 ),
                 TextField(
                   controller: _titleController,
@@ -102,10 +109,8 @@ class _AnnoucementsState extends State<Annoucements> {
                     // Handle the announcement submission here
                     String announcement = _announcementController.text;
                     if (announcement.isNotEmpty) {
-                      // You can send the announcement to a server, database, or perform any desired action.
-                      // For now, we'll just print it.
                       print('Announcement: $announcement');
-                      // Optionally, you can clear the text field.
+
                       _announcementController.clear();
                     }
                   },
@@ -118,7 +123,7 @@ class _AnnoucementsState extends State<Annoucements> {
                       child: Text(
                         "Send Announcement",
                         style: GoogleFonts.montserrat(
-                         ),
+                            textStyle: TextStyle(color: Colors.white)),
                       ),
                     ),
                     height: 50,

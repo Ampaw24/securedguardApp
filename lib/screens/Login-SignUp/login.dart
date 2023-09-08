@@ -84,20 +84,16 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       FormFieldBox(
                         controller: _passwordcontroller,
-                       
                         prefixi: Icons.lock,
                         suffixi: Icons.remove_red_eye,
                         hinttext: "Enter Password",
                       ),
                       CustomButton1(
                         onpressed: () {
-
-                          
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => Dashboard()));
-                       
                         },
                         buttonText: "Login",
                       ),
@@ -110,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                           SizedBox(
                             width: 30,
                           ),
-                          Text("Forgot Password?")
+                          Text("Create Account")
                         ],
                       )
                     ],
