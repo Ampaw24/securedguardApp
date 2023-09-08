@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "1010575980141",
+    "project_id": "securitymanager-a8340",
+    "storage_bucket": "securitymanager-a8340.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1010575980141:android:0677045afb63eb436ab164",
+        "android_client_info": {
+          "package_name": "com.ampaw.securityapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1010575980141-cvg6jgkdkfcudv4pqlq4d91msipsdgjc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJYHQmupOFRaInqkAPpiaRiA5mt5F9vmo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1010575980141-cvg6jgkdkfcudv4pqlq4d91msipsdgjc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1010575980141:android:f2328a0dbf2a435f6ab164",
+        "android_client_info": {
+          "package_name": "com.example.atusecurityapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1010575980141-cvg6jgkdkfcudv4pqlq4d91msipsdgjc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJYHQmupOFRaInqkAPpiaRiA5mt5F9vmo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1010575980141-cvg6jgkdkfcudv4pqlq4d91msipsdgjc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
