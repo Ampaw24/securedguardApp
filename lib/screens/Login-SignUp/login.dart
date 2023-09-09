@@ -1,5 +1,6 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
+import 'package:atusecurityapp/screens/Login-SignUp/signup.dart';
 import 'package:atusecurityapp/screens/home/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,6 +10,7 @@ import '../../widget/curledContainer.dart';
 import '../../widget/custombutton.dart';
 import '../../widget/formfieldbox.dart';
 import '../homepage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -22,6 +24,8 @@ class _LoginPageState extends State<LoginPage> {
   String? password;
   TextEditingController _mailcontroller = TextEditingController();
   TextEditingController _passwordcontroller = TextEditingController();
+  final _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,11 +93,20 @@ class _LoginPageState extends State<LoginPage> {
                         hinttext: "Enter Password",
                       ),
                       CustomButton1(
-                        onpressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Dashboard()));
+                        onpressed: () async {
+                          try {
+                            final user = await _auth.signInWithEmailAndPassword(
+                                email: _mailcontroller.text,
+                                password: _passwordcontroller.text);
+                            if (user != null) {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Dashboard()));
+                            }
+                          } catch (e) {
+                            print(e);
+                          }
                         },
                         buttonText: "Login",
                       ),
@@ -106,7 +119,12 @@ class _LoginPageState extends State<LoginPage> {
                           SizedBox(
                             width: 30,
                           ),
-                          Text("Create Account")
+                          GestureDetector(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SignUpPage())),
+                              child: Text("Create Account"))
                         ],
                       )
                     ],

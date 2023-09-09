@@ -1,5 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last
-
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_final_fields
 
 import 'dart:typed_data';
 
@@ -22,12 +21,16 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   GlobalKey _formkey = GlobalKey();
   Uint8List? _image;
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController  _staffIdController= TextEditingController();
   void _selectImage() async {
     Uint8List img = await pickImage(ImageSource.gallery);
     setState(() {
       _image = img;
     });
   }
+
+  void saveProfile() {}
 
   @override
   Widget build(BuildContext context) {
@@ -51,25 +54,28 @@ class _ProfilePageState extends State<ProfilePage> {
             Stack(
               children: [
                 Center(
-                  child:_image != null ? Container(
-                    margin: const EdgeInsets.only(top: 30),
-                    height: 120,
-                    width: 120,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(60),
-                        image: DecorationImage(
-                            image: MemoryImage(_image!),
-                            fit: BoxFit.cover)),
-                  ) : Container(
-                    margin: const EdgeInsets.only(top: 30),
-                    height: 120,
-                    width: 120,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(60),
-                        image: DecorationImage(
-                            image: AssetImage('assets/profile.png'),
-                            fit: BoxFit.cover)),
-                  ),
+                  child: _image != null
+                      ? Container(
+                          margin: const EdgeInsets.only(top: 30),
+                          height: 120,
+                          width: 120,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(60),
+                              image: DecorationImage(
+                                  image: MemoryImage(_image!),
+                                  fit: BoxFit.cover)),
+                        )
+                      : Container(
+                          margin: const EdgeInsets.only(top: 30),
+                          height: 120,
+                          width: 120,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(60),
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                      "https://avatars.mds.yandex.net/i?id=66cb59b160608b3ca1198d965073955c49b8dd0f-9288635-images-thumbs&n=13"),
+                                  fit: BoxFit.cover)),
+                        ),
                 ),
                 Positioned(
                     top: 110,
@@ -117,9 +123,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         child: Center(
                           child: TextFormField(
-                            // controller: _staffIdController,
+                            controller: _staffIdController,
                             decoration: InputDecoration(
-                              labelText: 'Staff Mail',
+                              labelText: 'Staff Username ',
                             ),
                           ),
                         ),
@@ -133,7 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         margin: const EdgeInsets.only(top: 20),
                         child: Center(
                           child: TextFormField(
-                            // controller: _passwordController,
+                            controller: _passwordController,
                             obscureText: true,
                             decoration: InputDecoration(
                               labelText: 'Password',

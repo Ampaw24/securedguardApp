@@ -5,18 +5,16 @@ import '../constants/textstyle.dart';
 typedef MyCallback = void Function(String);
 
 class FormFieldBox extends StatelessWidget {
-  const FormFieldBox(
-      {super.key,
-      required this.hinttext,
-      this.prefixi,
-      this.suffixi,
-      this.showtxt = false,
-      this.postAction,
-      this.controller,
-      this.onChangedAction,
- 
-      
-      });
+  const FormFieldBox({
+    super.key,
+    required this.hinttext,
+    this.prefixi,
+    this.suffixi,
+    this.showtxt = false,
+    this.postAction,
+    this.controller,
+    this.onChangedAction,
+  });
   final String hinttext;
   final IconData? prefixi, suffixi;
   final bool showtxt;
@@ -26,8 +24,8 @@ class FormFieldBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 64,
-      width: 296,
+      height: 50,
+      width: 250,
       decoration: BoxDecoration(
         // color: GreenishgDarkTheme['formfieldwhite'],
         borderRadius: BorderRadius.circular(15),
