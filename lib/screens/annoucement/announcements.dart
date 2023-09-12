@@ -1,4 +1,4 @@
-// ignore_for_file: sort_child_properties_last, prefer_const_constructors
+// ignore_for_file: sort_child_properties_last, prefer_const_constructors, unused_field, prefer_final_fields
 
 import 'dart:io';
 import 'package:atusecurityapp/constants/textstyle.dart';
@@ -23,6 +23,8 @@ class _AnnouncementsState extends State<Announcements> {
   TextEditingController newsTitleController = TextEditingController();
   TextEditingController newsDescriptionController = TextEditingController();
   TextEditingController file = TextEditingController();
+  TextEditingController idcontroller = TextEditingController();
+
   final storageRef = FirebaseStorage.instance.ref();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String selectedFileName = "Attach File";
@@ -34,7 +36,7 @@ class _AnnouncementsState extends State<Announcements> {
   Map? _newsVals;
   String? newsTitle;
   String? newsDescription;
-  final _newsCollection = FirebaseDatabase.instance.ref('News');
+  final _newsCollection = FirebaseDatabase.instance.ref('Announcements');
 
   deleteMessage(key) {
     _newsCollection.child(key).remove();
@@ -45,7 +47,7 @@ class _AnnouncementsState extends State<Announcements> {
   @override
   void initState() {
     super.initState();
-    dbRef = FirebaseDatabase.instance.ref().child('News');
+    dbRef = FirebaseDatabase.instance.ref().child('Announcements');
   }
 
   @override
@@ -113,8 +115,8 @@ class _AnnouncementsState extends State<Announcements> {
                                 weight: 3,
                               ),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 25, horizontal: 20),
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 15),
                             title: Text(_newsItems[index]['title'],
                                 style: GoogleFonts.poppins(
                                     textStyle: headerboldblue2)),
@@ -148,7 +150,7 @@ class _AnnouncementsState extends State<Announcements> {
                                 child: Column(
                                   children: [
                                     SizedBox(
-                                      height: 10,
+                                      height: 15,
                                     ),
                                     Text(
                                       "Create Annoucement",
@@ -164,6 +166,23 @@ class _AnnouncementsState extends State<Announcements> {
                                               CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text(
+                                              'Annoucement Id',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            TextFormField(
+                                              controller: idcontroller,
+                                              decoration: InputDecoration(
+                                                  hintText: 'Create Id ',
+                                                  hintStyle: TextStyle(
+                                                    fontSize: 12,
+                                                    fontStyle: FontStyle.italic,
+                                                  )),
+                                            ),
+                                            SizedBox(height: 12),
+                                            Text(
                                               'News Headline',
                                               style: TextStyle(
                                                 fontSize: 20,
@@ -173,12 +192,12 @@ class _AnnouncementsState extends State<Announcements> {
                                             TextFormField(
                                               controller: newsTitleController,
                                               decoration: InputDecoration(
-                                                hintText: 'Enter title',
+                                                hintText: 'Create title',
                                               ),
                                             ),
-                                            SizedBox(height: 12),
+                                            SizedBox(height: 15),
                                             Text(
-                                              'News Detail',
+                                              'Add Detail',
                                               style: TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold,
@@ -189,13 +208,15 @@ class _AnnouncementsState extends State<Announcements> {
                                                   newsDescriptionController,
                                               maxLines: 2,
                                               decoration: InputDecoration(
-                                                hintText: 'Enter description',
+                                                hintText: 'Add description',
                                               ),
                                             ),
                                             SizedBox(height: 14),
                                             GestureDetector(
                                               onTap: () {
                                                 Map<String, String> news = {
+                                                  'announcementId':
+                                                      idcontroller.text,
                                                   'title':
                                                       newsTitleController.text,
                                                   'description':
@@ -208,9 +229,9 @@ class _AnnouncementsState extends State<Announcements> {
                                                     .set(news)
                                                     .then((_) {
                                                   Flushbar(
-                                                    title: "News Posted",
+                                                    title: "Annoucement Posted",
                                                     message:
-                                                        "News ${newsTitleController.text} posted",
+                                                        "Annoucement ${newsTitleController.text} posted",
                                                     duration:
                                                         Duration(seconds: 4),
                                                     icon: Icon(
@@ -233,7 +254,7 @@ class _AnnouncementsState extends State<Announcements> {
                                                       flushbar.dismiss();
                                                     },
                                                   ).show(context);
-
+                                                  idcontroller.text = "";
                                                   newsTitleController.text = "";
                                                   newsDescriptionController
                                                       .text = "";

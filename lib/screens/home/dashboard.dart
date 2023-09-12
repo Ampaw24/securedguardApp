@@ -35,10 +35,12 @@ class _DashboardState extends State<Dashboard> {
   String? _maill;
   bool isLoading = false;
   bool isImageready = false;
+  int _pageindex = 1;
   List<DashboardModule> card = [
     DashboardModule("Users", Icons.verified_user_sharp, 5, ManageUsers()),
     DashboardModule("Reports", Icons.report, 5, ReportPage()),
-    DashboardModule("Post Sites", Icons.location_on, 5, PostSites()),
+    DashboardModule(
+        "Post Sites", Icons.location_on, 5, BTMnav(pageIndex: 1)),
     DashboardModule("Messages", Icons.message, 5, MessageView()),
     DashboardModule("Profile", Icons.person, 5, ProfilePage()),
     DashboardModule("Announ\ncement", Icons.announcement, 5, Announcements()),
