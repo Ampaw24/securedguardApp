@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                         margin: const EdgeInsets.only(top: 30),
                         child: Text(
                           "Login",
-                          style: GoogleFonts.abel(
+                          style: GoogleFonts.montserrat(
                             textStyle: kLoginTextHead,
                           ),
                         ),
@@ -96,13 +96,16 @@ class _LoginPageState extends State<LoginPage> {
                         onpressed: () async {
                           try {
                             final user = await _auth.signInWithEmailAndPassword(
-                                email: _mailcontroller.text,
+                                email:
+                                    "${_mailcontroller.text.trim()}@staff.sm",
                                 password: _passwordcontroller.text);
                             if (user != null) {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Dashboard()));
+                                      builder: (context) => Dashboard(
+                                            username: _mailcontroller.text,
+                                          )));
                             }
                           } catch (e) {
                             print(e);

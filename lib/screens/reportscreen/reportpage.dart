@@ -56,12 +56,12 @@ class _ReportPageState extends State<ReportPage> {
               Text(
                 "Manage Reports",
                 style: GoogleFonts.montserrat(
-                    fontSize: 23,
+                    fontSize: 20,
                     fontWeight: FontWeight.w600,
                     color: AppColors.btnBlue),
               ),
               const SizedBox(
-                width: 50,
+                width: 30,
               ),
               Container(
                 margin: const EdgeInsets.only(right: 20),
@@ -87,7 +87,7 @@ class _ReportPageState extends State<ReportPage> {
               left: 15,
               child: Text(
                 "Available Reports ${results.toString()}",
-                style: GoogleFonts.roboto(textStyle: headerboldblue1),
+                style: GoogleFonts.roboto(textStyle: headerboldblue2 ),
               ),
             ),
             Container(

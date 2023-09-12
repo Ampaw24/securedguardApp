@@ -12,14 +12,14 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class Announcements extends StatefulWidget {
-  const Announcements({super.key});
+class PostSites extends StatefulWidget {
+  const PostSites({super.key});
 
   @override
-  State<Announcements> createState() => _AnnouncementsState();
+  State<PostSites> createState() => _PostSitesState();
 }
 
-class _AnnouncementsState extends State<Announcements> {
+class _PostSitesState extends State<PostSites> {
   TextEditingController newsTitleController = TextEditingController();
   TextEditingController newsDescriptionController = TextEditingController();
   TextEditingController file = TextEditingController();
@@ -56,7 +56,7 @@ class _AnnouncementsState extends State<Announcements> {
             actions: [
               Center(
                 child: Text(
-                  "Announcement",
+                  "Post Sites",
                   style: GoogleFonts.montserrat(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,

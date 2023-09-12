@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -19,15 +21,19 @@ class DrawerItem extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: SizedBox(
-        height: 40,
-        child: Padding(
-          padding: const EdgeInsets.all(11.0),
+        height: 45,
+        child: Container(
+          padding: const EdgeInsets.all(5.0),
           child: Row(
             children: [
+              SizedBox(
+                width: 10,
+                height: 5,
+              ),
               Icon(
                 icon,
-                size: 20,
-                color: Colors.black,
+                size: 18,
+                color: const Color.fromARGB(255, 50, 50, 50),
               ),
               const SizedBox(
                 width: 20,
@@ -36,8 +42,8 @@ class DrawerItem extends StatelessWidget {
                 name,
                 style: GoogleFonts.montserrat(
                     fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
+                    fontWeight: FontWeight.w400,
+                    color: const Color.fromARGB(255, 50, 50, 50)),
               )
             ],
           ),

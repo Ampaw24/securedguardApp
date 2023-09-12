@@ -44,8 +44,8 @@ class _ManageUsersState extends State<ManageUsers> {
               Text(
                 "Manage Users",
                 style: GoogleFonts.montserrat(
-                    fontSize: 23,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
                     color: AppColors.btnBlue),
               ),
               const SizedBox(
@@ -73,8 +73,8 @@ class _ManageUsersState extends State<ManageUsers> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
-              "   Users ${user.length.toString()}",
-              style: GoogleFonts.roboto(textStyle: headerboldblue1),
+              "   Users  ${user.length.toString()}",
+              style: GoogleFonts.roboto(textStyle: headerboldblue2),
             ),
             ListView.builder(
                 itemCount: user.length,
@@ -85,6 +85,7 @@ class _ManageUsersState extends State<ManageUsers> {
                           onTap: () => showDialog(
                               context: context,
                               builder: (context) => AlertDialog(
+                                    backgroundColor: Colors.white,
                                     title: Center(
                                         child: Text(
                                       'Details',
@@ -93,6 +94,7 @@ class _ManageUsersState extends State<ManageUsers> {
                                     content: Padding(
                                       padding: EdgeInsets.all(10.0),
                                       child: Column(
+                                        textBaseline: TextBaseline.ideographic,
                                         mainAxisSize: MainAxisSize.min,
                                         children: <Widget>[
                                           // Rounded user image
@@ -106,13 +108,13 @@ class _ManageUsersState extends State<ManageUsers> {
                                               fit: BoxFit.cover,
                                             ),
                                           ),
-                                          SizedBox(height: 12.0),
+                                          SizedBox(height: 9.0),
                                           // User details
                                           Text(
                                             user[index].userName,
                                             style: TextStyle(
                                               color: AppColors.btnBlue,
-                                              fontSize: 24.0,
+                                              fontSize: 20.0,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -122,8 +124,49 @@ class _ManageUsersState extends State<ManageUsers> {
                                             child: Text(
                                               "User Id: ${user[index].userId}",
                                               style: TextStyle(
-                                                fontSize: 16.0,
+                                                fontSize: 14.0,
                                                 color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            child: Text(
+                                              "User Name: ${user[index].userName}",
+                                              style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                right: 10),
+                                            child: Text(
+                                              "Gender: ${user[index].gender}",
+                                              style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                right: 10),
+                                            child: Text(
+                                              "Age: ${user[index].age}",
+                                              style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            child: Text(
+                                              "Email:${user[index].email}",
+                                              style: TextStyle(
+                                                fontSize: 10.0,
+                                                color: const Color.fromARGB(
+                                                    255, 77, 77, 77),
                                               ),
                                             ),
                                           ),
@@ -155,14 +198,6 @@ class _ManageUsersState extends State<ManageUsers> {
                       title: Text(
                         user[index].userName,
                         style: GoogleFonts.poppins(textStyle: headerboldblue2),
-                      ),
-                      subtitle: Text(
-                        maxLines: 2,
-                        "",
-                        style: GoogleFonts.poppins(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w200,
-                            textStyle: TextStyle()),
                       ),
                     )),
           ]),

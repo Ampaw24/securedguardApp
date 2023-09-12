@@ -1,21 +1,27 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, use_build_context_synchronously
 
 import 'package:atusecurityapp/screens/annoucement/announcements.dart';
 import 'package:atusecurityapp/screens/annoucement/messageview.dart';
 import 'package:atusecurityapp/screens/profile.dart';
 import 'package:atusecurityapp/screens/reportscreen/reportpage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:atusecurityapp/widget/draweritem.dart';
 
+import '../screens/Login-SignUp/login.dart';
+
 class NavDrawer extends StatefulWidget {
-  const NavDrawer({Key? key}) : super(key: key);
+  final String usermail;
+
+  const NavDrawer({super.key, required this.usermail});
 
   @override
   State<NavDrawer> createState() => _NavDrawerState();
 }
 
 class _NavDrawerState extends State<NavDrawer> {
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -54,11 +60,14 @@ class _NavDrawerState extends State<NavDrawer> {
                           height: 110,
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
+                        Text("${widget.usermail.trim()}@staff.sm",
+                            style: GoogleFonts.montserrat(
+                                fontSize: 10, fontWeight: FontWeight.w300)),
                         Text('SECURED GUARD APP',
                             style: GoogleFonts.montserrat(
-                                fontSize: 15, fontWeight: FontWeight.w900))
+                                fontSize: 15, fontWeight: FontWeight.w400))
                       ],
                     ),
                   ),
@@ -78,7 +87,7 @@ class _NavDrawerState extends State<NavDrawer> {
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 30,
+                          height: 10,
                         ),
                         DrawerItem(
                           name: 'Edit Profile',
@@ -91,7 +100,7 @@ class _NavDrawerState extends State<NavDrawer> {
                           },
                         ),
                         const SizedBox(
-                          height: 10,
+                          height: 5,
                         ),
                         DrawerItem(
                           name: 'Reports',
@@ -113,7 +122,7 @@ class _NavDrawerState extends State<NavDrawer> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Annoucements()));
+                                      builder: (context) => Announcements()));
                             }),
                         const SizedBox(
                           height: 10,
@@ -159,7 +168,23 @@ class _NavDrawerState extends State<NavDrawer> {
                         DrawerItem(
                           name: 'Logout',
                           icon: Icons.login_rounded,
-                          onPressed: () {},
+                          onPressed: () {
+                            onPressed:
+                            () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              await FirebaseAuth.instance.signOut();
+
+                              setState(() {
+                                isLoading = false;
+                              });
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginPage()));
+                            };
+                          },
                         ),
                       ],
                     ),

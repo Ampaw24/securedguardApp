@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_final_fields, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, prefer_final_fields, use_build_context_synchronously, depend_on_referenced_packages
 
 import 'package:atusecurityapp/constants/colors.dart';
 import 'package:atusecurityapp/screens/Login-SignUp/login.dart';
@@ -23,7 +23,6 @@ class SignUpPage extends StatefulWidget {
 TextEditingController _username = TextEditingController();
 TextEditingController _passwordController = TextEditingController();
 TextEditingController _mail = TextEditingController();
-String? _gender;
 
 class _SignUpPageState extends State<SignUpPage> {
   FireAuth _fireAuth = FireAuth();

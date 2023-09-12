@@ -3,6 +3,7 @@
 import 'dart:typed_data';
 
 import 'package:atusecurityapp/constants/colors.dart';
+import 'package:atusecurityapp/module/storedata.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,7 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
   GlobalKey _formkey = GlobalKey();
   Uint8List? _image;
   TextEditingController _passwordController = TextEditingController();
-  TextEditingController  _staffIdController= TextEditingController();
+  TextEditingController _staffIdController = TextEditingController();
   void _selectImage() async {
     Uint8List img = await pickImage(ImageSource.gallery);
     setState(() {
@@ -30,7 +31,10 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-  void saveProfile() {}
+  void saveProfile() async {
+    String username = _staffIdController.text;
+    String resp = await StoreData().saveUrldb(name: username, file: _image!);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +173,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         width: 300,
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: saveProfile,
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 10,
