@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, prefer_const_constructors, prefer_const_literals_to_create_immutables
+import 'package:atusecurityapp/constants/colors.dart';
 import 'package:atusecurityapp/constants/postsites/assignguard.dart';
 import 'package:atusecurityapp/constants/postsites/createpostsite.dart';
+import 'package:atusecurityapp/constants/postsites/managepostsite.dart';
 import 'package:flutter/material.dart';
 
 class BTMnav extends StatefulWidget {
@@ -13,7 +15,8 @@ class BTMnav extends StatefulWidget {
 class _BTMnavState extends State<BTMnav> {
   final pages = [
     AssignGuard(),
-    CreatePost()
+    CreatePost(),
+    ManagePostSite(),
   ];
   int _pageIndex = 1;
 
@@ -33,7 +36,7 @@ class _BTMnavState extends State<BTMnav> {
                 borderRadius: BorderRadius.all(Radius.circular(20)))),
         child: NavigationBar(
             height: 63,
-            backgroundColor: Color.fromARGB(255, 0, 0, 77),
+            backgroundColor: AppColors.cardBlue,
             labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
             animationDuration: Duration(seconds: 1),
             selectedIndex: _pageIndex,
@@ -42,14 +45,14 @@ class _BTMnavState extends State<BTMnav> {
             destinations: [
               NavigationDestination(
                 icon: Icon(
-                  Icons.home,
+                  Icons.location_on,
                   color: Colors.white,
                 ),
                 selectedIcon: Icon(
-                  Icons.home,
+                  Icons.location_on,
                   color: Colors.black,
                 ),
-                label: 'HOME',
+                label: 'Sites',
               ),
               NavigationDestination(
                 icon: Icon(
@@ -57,10 +60,10 @@ class _BTMnavState extends State<BTMnav> {
                   color: Colors.white,
                 ),
                 selectedIcon: Icon(
-                  Icons.grid_view_sharp,
+                  Icons.add,
                   color: Colors.black,
                 ),
-                label: 'DPA',
+                label: 'Add Site',
               ),
               NavigationDestination(
                   icon: Icon(
@@ -71,18 +74,7 @@ class _BTMnavState extends State<BTMnav> {
                     Icons.lock,
                     color: Colors.black,
                   ),
-                  label: 'CSA'),
-              NavigationDestination(
-                icon: Icon(
-                  Icons.moving_rounded,
-                  color: Colors.white,
-                ),
-                selectedIcon: Icon(
-                  Icons.moving_rounded,
-                  color: Colors.black,
-                ),
-                label: 'ETA',
-              ),
+                  label: 'Allocate'),
             ]),
       ),
     );
