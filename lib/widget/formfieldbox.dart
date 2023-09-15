@@ -14,6 +14,7 @@ class FormFieldBox extends StatelessWidget {
     this.postAction,
     this.controller,
     this.onChangedAction,
+    this.errcolor = Colors.white,
   });
   final String hinttext;
   final IconData? prefixi, suffixi;
@@ -21,6 +22,7 @@ class FormFieldBox extends StatelessWidget {
   final VoidCallback? postAction;
   final MyCallback? onChangedAction;
   final controller;
+  final Color errcolor;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,7 +49,7 @@ class FormFieldBox extends StatelessWidget {
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide: BorderSide(
-                color: Color(0xffEEE6E6),
+                color: errcolor,
               ),
             ),
             filled: true,

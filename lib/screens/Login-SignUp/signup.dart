@@ -42,6 +42,7 @@ class _SignUpPageState extends State<SignUpPage> {
     'Female',
   ];
   String? _selectedGender;
+  
   List<DropdownMenuItem> getDropdownData() {
     List<DropdownMenuItem<String>> dropdownItem = [];
     for (var index = 0; index < _gender.length; index++) {
@@ -232,14 +233,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ],
                     )),
-                     if (_isLoading!)
-            Center(
-              child: SizedBox(
-                height: 50,
-                width: 50,
-                child: CircularProgressIndicator(),
-              ),
-            ),
+                    
+           
               ],
             ),
           ),

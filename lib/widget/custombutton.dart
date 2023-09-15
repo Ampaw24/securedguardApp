@@ -10,7 +10,7 @@ class CustomButton1 extends StatelessWidget {
   const CustomButton1(
       {super.key,
       required this.buttonText,
-      this.width = 296,
+      this.width = 290,
       this.height = 55,
       this.btnColor = const Color(0xff142831),
       required this.onpressed});

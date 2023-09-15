@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously, unnecessary_null_comparison, empty_catches
 
 import 'package:atusecurityapp/screens/Login-SignUp/signup.dart';
 import 'package:atusecurityapp/screens/home/dashboard.dart';
@@ -11,6 +11,8 @@ import '../../widget/custombutton.dart';
 import '../../widget/formfieldbox.dart';
 import '../homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -25,6 +27,43 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _mailcontroller = TextEditingController();
   TextEditingController _passwordcontroller = TextEditingController();
   final _auth = FirebaseAuth.instance;
+
+  bool _isloading = false;
+  bool isErr = false;
+
+  void _signInwithMail() async {
+    setState(() {
+      _isloading = true;
+    });
+    try {
+      final user = await _auth.signInWithEmailAndPassword(
+          email: "${_mailcontroller.text.trim()}@staff.sm",
+          password: _passwordcontroller.text);
+      if (user != null) {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Dashboard(
+                      username: _mailcontroller.text,
+                    )));
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        setState(() {
+          _isloading = false;
+          isErr = true;
+          _mailcontroller.text = "";
+        });
+      }
+    }
+  }
+
+  Widget displayError(String _title, String _message) {
+    return GetSnackBar(
+      title: _title,
+      message: _message,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,39 +118,31 @@ class _LoginPageState extends State<LoginPage> {
                         height: 30,
                       ),
                       FormFieldBox(
+                        errcolor: isErr
+                            ? Color.fromARGB(255, 222, 40, 40)
+                            : Colors.white,
                         controller: _mailcontroller,
                         prefixi: Icons.person,
-                        hinttext: "Admin Id",
+                        hinttext: isErr ? "Invalid Admin Id" : "Admin Id",
                       ),
                       SizedBox(
                         height: 30,
                       ),
                       FormFieldBox(
+                        errcolor: isErr
+                            ? Color.fromARGB(255, 222, 40, 40)
+                            : Colors.white,
                         controller: _passwordcontroller,
                         prefixi: Icons.lock,
                         suffixi: Icons.remove_red_eye,
                         hinttext: "Enter Password",
                       ),
-                      CustomButton1(
-                        onpressed: () async {
-                          try {
-                            final user = await _auth.signInWithEmailAndPassword(
-                                email:
-                                    "${_mailcontroller.text.trim()}@staff.sm",
-                                password: _passwordcontroller.text);
-                            if (user != null) {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Dashboard(
-                                            username: _mailcontroller.text,
-                                          )));
-                            }
-                          } catch (e) {
-                            print(e);
-                          }
-                        },
-                        buttonText: "Login",
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: CustomButton1(
+                          onpressed: _signInwithMail,
+                          buttonText: "Login",
+                        ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -129,7 +160,13 @@ class _LoginPageState extends State<LoginPage> {
                                       builder: (context) => SignUpPage())),
                               child: Text("Create Account"))
                         ],
-                      )
+                      ),
+                      _isloading
+                          ? SpinKitDualRing(
+                              size: 40,
+                              color: Color(0xff13262E),
+                            )
+                          : Container()
                     ],
                   ),
                 ),
@@ -141,3 +178,56 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+// void _signInWithEmailAndPassword() async {
+//       if (_formKey.currentState!.validate()) {
+//         setState(() {
+//           _isLoading = true;
+//           _error = '';
+//         });
+
+//         try {
+//           // Attempt to sign in with email and password
+//           final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+//             email: _emailController.text.trim(),
+//             password: _passwordController.text,
+//           );
+
+//           // Navigate to home page if sign in successful
+//           if (userCredential.user != null) {
+//             final firebaseUser = userCredential.user!;
+//             final user = MyUser.fromFirebaseUser(firebaseUser);
+//             Navigator.pushReplacement(
+//               context,
+//               MaterialPageRoute(builder: (context) => HomePage(user: user)),
+//             );
+//           }
+//         } on FirebaseAuthException catch (e) {
+//           if (e.code == 'wrong-password') {
+//             setState(() {
+//               _isLoading = false;
+//               _error = 'The password is incorrect. Please try again.';
+//             });
+//           } else if (e.code == 'user-not-found') {
+//             setState(() {
+//               _isLoading = false;
+//               _error = 'There is no user associated with this email. The user may have been deleted.';
+//             });
+//           } else if (e.code == 'invalid-email') {
+//             setState(() {
+//               _isLoading = false;
+//               _error = 'The email is not valid. Please check and try again.';
+//             });
+//           } else {
+//             setState(() {
+//               _isLoading = false;
+//               _error = 'Something went wrong. Please try again.';
+//             });
+//           }
+//         } catch (e) {
+//           setState(() {
+//             _isLoading = false;
+//             _error = 'Something went wrong. Please try again.';
+//           });
+//         }
+//       }
+//     }

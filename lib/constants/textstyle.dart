@@ -16,7 +16,7 @@ const kCompanysubTitleText = TextStyle(
 const kLoginTextHead = TextStyle(
   color: Color(0xff050E0D),
   fontWeight: FontWeight.w500,
-  fontSize: 30,
+  fontSize: 28,
   fontStyle: FontStyle.normal,
 );
 const kLoginTextfield = TextStyle(
@@ -29,7 +29,7 @@ const kLoginTextfield = TextStyle(
 const kLoginbutton = TextStyle(
   color: Colors.white,
   fontWeight: FontWeight.w300,
-  fontSize: 26,
+  fontSize: 24,
   fontStyle: FontStyle.normal,
 );
 const kCreateTextfield = TextStyle(
