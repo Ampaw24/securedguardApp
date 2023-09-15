@@ -5,6 +5,7 @@ import 'package:atusecurityapp/constants/textstyle.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AssignGuard extends StatefulWidget {
@@ -35,15 +36,18 @@ class _AssignGuardState extends State<AssignGuard> {
       child: Column(
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 7, left: 15),
+            margin: const EdgeInsets.only(top: 10, left: 15),
             child: Text(
-              "\n Manage Locations ",
+              " Manage Locations ",
               style: GoogleFonts.montserrat(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
                 color: Colors.black,
               ),
             ),
+          ),
+          SizedBox(
+            height: 15,
           ),
           Expanded(
               child: StreamBuilder(
@@ -62,37 +66,54 @@ class _AssignGuardState extends State<AssignGuard> {
                         shrinkWrap: true,
                         itemCount: _newsItems.length,
                         itemBuilder: (context, index) {
-                          return ListTile(
-                            trailing: GestureDetector(
-                              onTap: () async {
-                                await deleteMessage(_newsItems[index]['key']);
-
-                                Fluttertoast.showToast(
-                                    msg: "Post Site Deleted!!",
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.CENTER,
-                                    timeInSecForIosWeb: 1,
-                                    backgroundColor: Colors.black45,
-                                    textColor: Colors.white,
-                                    fontSize: 15.0);
-                              },
-                              child: Icon(
-                                Icons.cancel,
-                                size: 18,
-                                color: AppColors.cardRed,
-                                weight: 3,
+                          return Card(
+                            elevation: 3,
+                            child: ListTile(
+                              title: Text(_newsItems[index]['loacation_Id']),
+                              subtitle:
+                                  Text(_newsItems[index]['location_Name']),
+                              leading: Icon(Icons.location_on_rounded),
+                              trailing: GestureDetector(
+                                onTap: () {
+                                  Get.defaultDialog(
+                                    backgroundColor: Colors.white,
+                                    radius: 10,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 10),
+                                    title: 'Delete Confirmation',
+                                    titleStyle: TextStyle(
+                                        fontSize: 15,
+                                        color: AppColors.btnBlue,
+                                        fontWeight: FontWeight.w400),
+                                    content: Text(
+                                        'Are you sure you want to delete this item?'),
+                                    textConfirm:
+                                        'Confirm', // Change the button text to "Get X"
+                                    textCancel: 'Cancel',
+                                    onCancel: () => Get.back(),
+                                    onConfirm: () async {
+                                      await deleteMessage(
+                                          _newsItems[index]['key']);
+                                      Get.back();
+                                      Get.showSnackbar(GetSnackBar(
+                                        duration: Duration(seconds: 3),
+                                        title: "Location Deleted",
+                                        message:
+                                            " Location ${_newsItems[index]['loacation_Id']}",
+                                      ));
+                                    },
+                                  );
+                                },
+                                child: Icon(
+                                  Icons.cancel,
+                                  size: 18,
+                                  color: AppColors.cardRed,
+                                  weight: 3,
+                                ),
                               ),
+                              contentPadding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
                             ),
-                            contentPadding:
-                                const EdgeInsets.symmetric(horizontal: 15),
-                            title: Text(_newsItems[index]['title'],
-                                style: GoogleFonts.poppins(
-                                    textStyle: headerboldblue2)),
-                            subtitle: Text(_newsItems[index]['description'],
-                                style: GoogleFonts.poppins(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w200,
-                                    textStyle: TextStyle())),
                           );
                         },
                       );

@@ -6,8 +6,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:get/get.dart';
 import '../../modules/locationmodule.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class CreatePost extends StatefulWidget {
   @override
@@ -26,6 +27,7 @@ class _CreatePostState extends State<CreatePost> {
     _newsCollection.child(key).remove();
   }
 
+  bool _isLoading = false;
   DatabaseReference? dbRef;
   void _addLocation() {
     if (_formKey.currentState!.validate()) {
@@ -45,7 +47,7 @@ class _CreatePostState extends State<CreatePost> {
   @override
   void initState() {
     super.initState();
-    dbRef = FirebaseDatabase.instance.ref().child('Post Sites');
+    dbRef = FirebaseDatabase.instance.ref().child('PostSitesLocations');
   }
 
   @override
@@ -115,7 +117,8 @@ class _CreatePostState extends State<CreatePost> {
                 ),
                 TextFormField(
                   controller: _addressdController,
-                  decoration: InputDecoration(labelText: 'Location Description'),
+                  decoration:
+                      InputDecoration(labelText: 'Location Description'),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter a decription of where location could be';
@@ -125,47 +128,44 @@ class _CreatePostState extends State<CreatePost> {
                 ),
                 SizedBox(height: 16.0),
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    _isLoading
+                        ? SpinKitDualRing(
+                            color: Colors.blue,
+                          )
+                        : Container();
                     Map<String, String> location = {
-                     'loacation_Id': _nameController.text,
-                     'location_Name': _addressController.text,
-                     'location_Description': _addressdController.text
+                      'loacation_Id': _nameController.text,
+                      'location_Name': _addressController.text,
+                      'location_Description': _addressdController.text
                     };
-          
-                    dbRef?.push().set(location).then((_) {
-                      Flushbar(
-                        title: "Annoucement Posted",
-                        message: "Annoucement  posted",
-                        duration: Duration(seconds: 4),
-                        icon:
-                            Icon(Icons.done_outline_rounded, color: Colors.white),
-                        backgroundColor:
-                            Color.fromARGB(255, 43, 51, 54).withOpacity(0.6),
-                        flushbarPosition: FlushbarPosition.TOP,
-                        animationDuration: Duration(milliseconds: 500),
-                        borderRadius: BorderRadius.circular(10),
-                        margin: EdgeInsets.all(8.0),
-                        onTap: (flushbar) {
-                          flushbar.dismiss();
-                        },
-                      ).show(context);
+
+                    await dbRef?.push().set(location).then((_) {
+                      _nameController.text = "";
+                      _addressController.text = " ";
+                      _addressdController.text = " ";
+
+                      Get.showSnackbar(GetSnackBar(
+                        title: "Location Added",
+                        message:
+                            "Location Added To database You can Assign Guards ",
+                        duration: Duration(seconds: 5),
+                      ));
+                      setState(() {
+                        _isLoading = false;
+                      });
                     }).catchError((_) {
-                      Flushbar(
-                        title: "News Post Error",
-                        message: "News  Error",
-                        duration: Duration(seconds: 4),
-                        icon:
-                            Icon(Icons.done_outline_rounded, color: Colors.white),
-                        backgroundColor:
-                            Color.fromARGB(255, 237, 51, 51).withOpacity(0.6),
-                        flushbarPosition: FlushbarPosition.TOP,
-                        animationDuration: Duration(milliseconds: 300),
-                        borderRadius: BorderRadius.circular(10),
-                        margin: EdgeInsets.all(8.0),
-                        onTap: (flushbar) {
-                          flushbar.dismiss();
-                        },
-                      ).show(context);
+                      Get.showSnackbar(GetSnackBar(
+                        title: "Error Occured ",
+                        message: "Error Occured while Adding Location",
+                        duration: Duration(seconds: 5),
+                      ));
+                    });
+                    setState(() {
+                      _isLoading = false;
                     });
                   },
                   child: Container(

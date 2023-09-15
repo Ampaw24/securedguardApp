@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:atusecurityapp/constants/colors.dart';
 import 'package:atusecurityapp/module/storedata.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,7 +14,7 @@ import '../constants/textstyle.dart';
 import '../constants/utils.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -106,11 +107,11 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             Text(
-              "David Soweto",
+              "Fermin",
               style: GoogleFonts.roboto(textStyle: headerboldblue1),
             ),
             Text(
-              "Lecturer",
+              "Admin",
               style: GoogleFonts.roboto(),
             ),
             SizedBox(
