@@ -130,7 +130,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: TextFormField(
                             controller: _staffIdController,
                             decoration: InputDecoration(
-                              labelText: 'Staff Username ',
+                              labelText: 'Admin Username ',
                             ),
                           ),
                         ),

@@ -8,6 +8,7 @@ import '../../constants/colors.dart';
 import '../../constants/textstyle.dart';
 import '../../modules/reportsmodule.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:get/get.dart';
 
 class ReportPage extends StatefulWidget {
   const ReportPage({super.key});
@@ -56,9 +57,9 @@ class _ReportPageState extends State<ReportPage> {
               Text(
                 "Manage Reports",
                 style: GoogleFonts.montserrat(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.btnBlue),
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.blue),
               ),
               const SizedBox(
                 width: 30,
@@ -75,31 +76,32 @@ class _ReportPageState extends State<ReportPage> {
               )
             ],
             leading: GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: Icon(Icons.arrow_back)),
+                onTap: () => Get.back(), child: Icon(Icons.arrow_back)),
             backgroundColor: Colors.white,
           ),
           preferredSize: const Size.fromHeight(60)),
-      body: Container(
-        child: Stack(
-          children: [
-            Positioned(
-              left: 15,
-              child: Text(
-                "Available Reports ${results.toString()}",
-                style: GoogleFonts.roboto(textStyle: headerboldblue2 ),
-              ),
+      body: Stack(
+        children: [
+          Positioned(
+            left: 15,
+            child: Text(
+              "Available Reports ${results.toString()}",
+              style: GoogleFonts.roboto(textStyle: headerboldblue2),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 35),
-              child: ListView.builder(
-                  itemCount: reports.length,
-                  itemBuilder: (context, index) => Slidable(
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 35),
+            child: ListView.builder(
+                itemCount: reports.length,
+                itemBuilder: (context, index) => Slidable(
+                      child: Card(
+                        elevation: 4,
+                        color: Colors.white,
                         child: ListTile(
                           trailing: GestureDetector(
                             child: Icon(
                               Icons.delete,
-                              color: AppColors.btnBlue,
+                              color: Colors.blue,
                             ),
                           ),
                           onTap: () {
@@ -117,8 +119,8 @@ class _ReportPageState extends State<ReportPage> {
                                         )));
                           },
                           leading: Material(
-                            borderRadius: BorderRadius.circular(25),
-                            elevation: 5,
+                            borderRadius: BorderRadius.circular(15),
+                            elevation: 2,
                             child: Container(
                               height: 50,
                               width: 50,
@@ -146,7 +148,7 @@ class _ReportPageState extends State<ReportPage> {
                               Icon(
                                 Icons.location_on,
                                 size: 14,
-                                color: AppColors.btnBlue,
+                                color: Colors.blue,
                               ),
                               SizedBox(
                                 width: 5,
@@ -155,63 +157,63 @@ class _ReportPageState extends State<ReportPage> {
                             ],
                           ),
                         ),
-                        endActionPane: ActionPane(
-                          // A motion is a widget used to control how the pane animates.
-                          motion: const ScrollMotion(),
+                      ),
+                      endActionPane: ActionPane(
+                        // A motion is a widget used to control how the pane animates.
+                        motion: const ScrollMotion(),
 
-                          // A pane can dismiss the Slidable.
-                          // dismissible: DismissiblePane(onDismissed: () {}),
-                          children: [
-                            SlidableAction(
-                              onPressed: (BuildContext context) {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    // Use the AlertDialog widget to create a confirmation dialog
-                                    return AlertDialog(
-                                      title: Text('Confirm Delete'),
-                                      content: Text(
-                                          'Are you sure you want to delete this item?'),
-                                      actions: <Widget>[
-                                        // Button to cancel the deletion
-                                        TextButton(
-                                          child: Text('Cancel'),
-                                          onPressed: () {
-                                            Navigator.of(context)
-                                                .pop(); // Close the dialog
-                                          },
-                                        ),
-                                        // Button to confirm and delete
-                                        TextButton(
-                                          child: Text('Delete'),
-                                          onPressed: () {
-                                            // Remove the item from the list
+                        // A pane can dismiss the Slidable.
+                        // dismissible: DismissiblePane(onDismissed: () {}),
+                        children: [
+                          SlidableAction(
+                            onPressed: (BuildContext context) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  // Use the AlertDialog widget to create a confirmation dialog
+                                  return AlertDialog(
+                                    title: Text('Confirm Delete'),
+                                    content: Text(
+                                        'Are you sure you want to delete this item?'),
+                                    actions: <Widget>[
+                                      // Button to cancel the deletion
+                                      TextButton(
+                                        child: Text('Cancel'),
+                                        onPressed: () {
+                                          Navigator.of(context)
+                                              .pop(); // Close the dialog
+                                        },
+                                      ),
+                                      // Button to confirm and delete
+                                      TextButton(
+                                        child: Text('Delete'),
+                                        onPressed: () {
+                                          // Remove the item from the list
 
-                                            // Update the UI by rebuilding the widget
-                                            setState(() {
-                                              reports.removeAt(index);
-                                            });
+                                          // Update the UI by rebuilding the widget
+                                          setState(() {
+                                            reports.removeAt(index);
+                                          });
 
-                                            // Close the dialog
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                              backgroundColor: Color(0xFFFE4A49),
-                              foregroundColor: Colors.white,
-                              icon: FontAwesomeIcons.trashCan,
-                              label: 'Delete',
-                            ),
-                          ],
-                        ),
-                      )),
-            )
-          ],
-        ),
+                                          // Close the dialog
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            backgroundColor: Color(0xFFFE4A49),
+                            foregroundColor: Colors.white,
+                            icon: FontAwesomeIcons.trashCan,
+                            label: 'Delete',
+                          ),
+                        ],
+                      ),
+                    )),
+          )
+        ],
       ),
     );
   }

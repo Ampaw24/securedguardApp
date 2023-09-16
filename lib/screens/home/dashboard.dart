@@ -36,10 +36,10 @@ class _DashboardState extends State<Dashboard> {
   bool isImageready = false;
   int _pageindex = 1;
   List<DashboardModule> card = [
-    DashboardModule("Users", Icons.verified_user_sharp, 5, ManageUsers()),
-    DashboardModule("Reports", Icons.report, 5, ReportPage()),
     DashboardModule(
-        "Post Sites", Icons.location_on, 5, BTMnav(pageIndex: 1)),
+        "Manage \nGuards", Icons.verified_user_sharp, 5, ManageUsers()),
+    DashboardModule("Reports", Icons.report, 5, ReportPage()),
+    DashboardModule("Post Sites", Icons.location_on, 5, BTMnav(pageIndex: 1)),
     DashboardModule("Messages", Icons.message, 5, MessageView()),
     DashboardModule("Profile", Icons.person, 5, ProfilePage()),
     DashboardModule("Announ\ncement", Icons.announcement, 5, Announcements()),
@@ -128,6 +128,11 @@ class _DashboardState extends State<Dashboard> {
       drawer: NavDrawer(usermail: widget.username.toString()),
       appBar: PreferredSize(
           child: AppBar(
+            centerTitle: true,
+            title: Text(
+              "Secured Guard App",
+              style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 18)),
+            ),
             actions: [
               SizedBox(
                 width: 20,
@@ -200,7 +205,6 @@ class _DashboardState extends State<Dashboard> {
                       child: DashboarddCards(
                     navigatePage: card[index].navigate,
                     cardIcon: card[index].icon,
-                    counter: card[index].count,
                     title: card[index].title,
                   ));
                 },

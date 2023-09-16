@@ -16,7 +16,7 @@ class _BTMnavState extends State<BTMnav> {
   final pages = [
     AssignGuard(),
     CreatePost(),
-    ManagePostSite(),
+    AssignmentForm(),
   ];
   int _pageIndex = 1;
 

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, use_build_context_synchronously
 
+import 'package:atusecurityapp/constants/postsites/postsites.dart';
 import 'package:atusecurityapp/screens/annoucement/announcements.dart';
 import 'package:atusecurityapp/screens/annoucement/messageview.dart';
 import 'package:atusecurityapp/screens/profile.dart';
@@ -8,7 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:atusecurityapp/widget/draweritem.dart';
-
+import 'package:get/get.dart';
 import '../screens/Login-SignUp/login.dart';
 
 class NavDrawer extends StatefulWidget {
@@ -93,10 +94,8 @@ class _NavDrawerState extends State<NavDrawer> {
                           name: 'Edit Profile',
                           icon: Icons.edit,
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProfilePage()));
+                            Get.to(ProfilePage(),
+                                transition: Transition.rightToLeft);
                           },
                         ),
                         const SizedBox(
@@ -106,10 +105,8 @@ class _NavDrawerState extends State<NavDrawer> {
                           name: 'Reports',
                           icon: Icons.report,
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ReportPage()));
+                            Get.to(ReportPage(),
+                                transition: Transition.rightToLeft);
                           },
                         ),
                         const SizedBox(
@@ -119,22 +116,18 @@ class _NavDrawerState extends State<NavDrawer> {
                             name: 'Annoucements',
                             icon: Icons.newspaper,
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Announcements()));
+                              Get.to(Announcements(),
+                                  transition: Transition.rightToLeft);
                             }),
                         const SizedBox(
                           height: 10,
                         ),
                         DrawerItem(
-                            name: 'Alert',
-                            icon: Icons.notifications_active,
+                            name: 'Sites',
+                            icon: Icons.location_on,
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => MessageView()));
+                              Get.to(BTMnav(pageIndex: 1),
+                                  transition: Transition.rightToLeft);
                             }),
                         const SizedBox(
                           height: 10,
@@ -168,22 +161,11 @@ class _NavDrawerState extends State<NavDrawer> {
                         DrawerItem(
                           name: 'Logout',
                           icon: Icons.login_rounded,
-                          onPressed: () {
-                            onPressed:
-                            () async {
-                              setState(() {
-                                isLoading = true;
-                              });
-                              await FirebaseAuth.instance.signOut();
+                          onPressed: () async {
+                            await FirebaseAuth.instance.signOut();
 
-                              setState(() {
-                                isLoading = false;
-                              });
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LoginPage()));
-                            };
+                            Get.to(LoginPage(),
+                                transition: Transition.downToUp);
                           },
                         ),
                       ],

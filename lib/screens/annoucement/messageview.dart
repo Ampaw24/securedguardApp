@@ -1,10 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/get_core.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../constants/colors.dart';
 import '../../module/messagemodeule.dart';
-
 
 class MessageView extends StatefulWidget {
   const MessageView({super.key});
@@ -31,11 +32,12 @@ class _MessageViewState extends State<MessageView> {
             title: Text(
               "Messages",
               style: GoogleFonts.montserrat(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.btnBlue),
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.blue),
             ),
-            leading: Container(),
+            leading: GestureDetector(
+                onTap: () => Get.back(), child: Icon(Icons.arrow_back)),
           )),
       body: ListView.builder(
           itemCount: messages.length,

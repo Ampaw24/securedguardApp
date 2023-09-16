@@ -21,7 +21,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Security App',
       theme: ThemeData(
-        
+        dialogTheme: DialogTheme(backgroundColor: Colors.white),
+        datePickerTheme:
+            DatePickerThemeData(backgroundColor: Color(0xff13262E)),
+        timePickerTheme: TimePickerThemeData(
+            backgroundColor: Colors.white,
+            hourMinuteColor: Color(0xff13262E),
+            hourMinuteTextColor: Colors.white,
+            dialHandColor: Color(0xff13262E)),
         useMaterial3: true,
       ),
       home: SplashScreen(),

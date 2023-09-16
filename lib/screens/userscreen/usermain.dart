@@ -3,6 +3,7 @@
 import 'package:atusecurityapp/modules/usermodule.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -40,31 +41,21 @@ class _ManageUsersState extends State<ManageUsers> {
       backgroundColor: Colors.white,
       appBar: PreferredSize(
           child: AppBar(
-            actions: [
-              Text(
-                "Manage Users",
-                style: GoogleFonts.montserrat(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.btnBlue),
-              ),
-              const SizedBox(
+            title: Text(
+              "Manage Guards",
+              style: GoogleFonts.montserrat(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.blue),
+            ),
+            centerTitle: true,
+            actions: const [
+              SizedBox(
                 width: 50,
               ),
-              Container(
-                margin: const EdgeInsets.only(right: 20),
-                height: 35,
-                width: 35,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("assets/profile.jpg"),
-                        fit: BoxFit.cover),
-                    borderRadius: BorderRadius.circular(20)),
-              )
             ],
             leading: GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: Icon(Icons.arrow_back)),
+                onTap: () => Get.back(), child: Icon(Icons.arrow_back)),
             backgroundColor: Colors.white,
           ),
           preferredSize: const Size.fromHeight(60)),
@@ -73,7 +64,7 @@ class _ManageUsersState extends State<ManageUsers> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
-              "   Users  ${user.length.toString()}",
+              "     Users  ${user.length.toString()}",
               style: GoogleFonts.roboto(textStyle: headerboldblue2),
             ),
             ListView.builder(
