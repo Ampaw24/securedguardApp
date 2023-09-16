@@ -1,5 +1,4 @@
 // ignore_for_file: sort_child_properties_last
-
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
@@ -7,24 +6,12 @@ import 'package:google_fonts/google_fonts.dart';
 import '../colors.dart';
 import '../textstyle.dart';
 
-void main() {
-  runApp(MyApp());
-}
 
 class GuardLocationAssignment {
   String guardName = "";
   String locationName = "";
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now();
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: AssignmentForm(),
-    );
-  }
 }
 
 class AssignmentForm extends StatefulWidget {
