@@ -1,4 +1,4 @@
-// ignore_for_file: sort_child_properties_last
+// ignore_for_file: sort_child_properties_last, prefer_const_constructors, use_build_context_synchronously
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -44,7 +44,33 @@ class _AssignmentFormState extends State<AssignmentForm> {
   @override
   void initState() {
     super.initState();
-    dbRef = FirebaseDatabase.instance.ref().child('PostSitesLocations');
+    dbRef = FirebaseDatabase.instance
+        .ref()
+        .child('PostSitesLocations/loacation_Id');
+    print(dbRef);
+  }
+
+  Future<List<String>> fetchLocationsFromDatabase() async {
+    DataSnapshot snapShot =
+        (await _reportCollection.child('PostSitesLocations').once()).snapshot;
+    List<String> locations = [];
+
+    Map<String, String>? values = snapShot.value as Map<String, String>?;
+    
+    print(values);
+
+    if (values != null) {
+      values.forEach((key, value) {
+        locations.add(value.toString());
+      });
+    } else {
+      await showDialog(
+          context: context,
+          builder: (BuildContext ctx) => AlertDialog(
+              title: Text('No Locations Found'), content: Text("Please Add")));
+    }
+
+    return locations;
   }
 
   @override
@@ -92,6 +118,41 @@ class _AssignmentFormState extends State<AssignmentForm> {
                 ),
                 const SizedBox(
                   height: 30,
+                ),
+                FutureBuilder<List<String>>(
+                  future: fetchLocationsFromDatabase(),
+                  builder: (context, snapShot) {
+                    if (snapShot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else if (snapShot.hasError) {
+                      return Text('Error: ${snapShot.error}');
+                    } else {
+                      List<String>? locations = snapShot.data;
+                      return FormBuilderDropdown(
+                        elevation: 5,
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                          style: BorderStyle.solid,
+                          color: Colors.black,
+                        ))),
+                        icon: Icon(Icons.location_on),
+                        initialValue: "Location 1",
+                        name: 'location_name',
+                        items: locations!
+                            .map((location) => DropdownMenuItem(
+                                  value: location,
+                                  child: Text(location),
+                                ))
+                            .toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            assignment.locationName = value.toString();
+                          });
+                        },
+                      );
+                    }
+                  },
                 ),
                 FormBuilderDropdown(
                   elevation: 5,
@@ -154,6 +215,10 @@ class _AssignmentFormState extends State<AssignmentForm> {
                       print('Start Time: ${assignment.startTime}');
                       print('End Time: ${assignment.endTime}');
                     }
+
+                    // Map<String,dynamic> GuardAssign = [
+                    //   'Guard_Name':
+                    // ];
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
