@@ -1,11 +1,11 @@
 // ignore_for_file: sort_child_properties_last
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../colors.dart';
 import '../textstyle.dart';
-
 
 class GuardLocationAssignment {
   String guardName = "";
@@ -22,6 +22,30 @@ class AssignmentForm extends StatefulWidget {
 class _AssignmentFormState extends State<AssignmentForm> {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   GuardLocationAssignment assignment = GuardLocationAssignment();
+
+  // final databaseRef = FirebaseDatabase.instance.ref('iii');
+  // DataSnapshot dataSnapshot = databaseRef.once();
+  // List<dynamic> values = dataSnapshot.value;
+  // List<DropdownMenuItem<dynamic>> items = [];
+  // values.forEach((value){
+  //   items.add(DropdownMenuItem(
+  //     value:value,
+  //     child:Text(vallue),
+  //   ))
+  // });
+  final _reportCollection = FirebaseDatabase.instance.ref('PostSitesLocations');
+
+  deleteMessage(key) {
+    _reportCollection.child(key).remove();
+  }
+
+  DatabaseReference? dbRef;
+
+  @override
+  void initState() {
+    super.initState();
+    dbRef = FirebaseDatabase.instance.ref().child('PostSitesLocations');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,6 +145,7 @@ class _AssignmentFormState extends State<AssignmentForm> {
                 SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
+                    print("readd");
                     if (_formKey.currentState!.saveAndValidate()) {
                       // Form data is valid, you can perform the assignment here.
                       print('Assignment Data:');

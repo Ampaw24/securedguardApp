@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_final_fields
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_final_fields, avoid_unnecessary_containers
 
 import 'dart:typed_data';
 
@@ -21,6 +21,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  
   GlobalKey _formkey = GlobalKey();
   Uint8List? _image;
   TextEditingController _passwordController = TextEditingController();

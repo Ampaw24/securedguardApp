@@ -101,7 +101,7 @@ class _AnnouncementsState extends State<Announcements> {
                                     height: 50,
                                     child: Center(
                                         child: Text(
-                                      "ID",
+                                      _newsItems[index]['announcementId'],
                                       style: GoogleFonts.poppins(
                                           fontSize: 15,
                                           color: Colors.white,
@@ -131,12 +131,10 @@ class _AnnouncementsState extends State<Announcements> {
                               ),
                               contentPadding:
                                   const EdgeInsets.symmetric(horizontal: 15),
-                              title: Text(
-                                  _newsItems[index]['Announcement title'],
+                              title: Text(_newsItems[index]['title'],
                                   style: GoogleFonts.poppins(
                                       textStyle: headerboldblue2)),
-                              subtitle: Text(
-                                  _newsItems[index]['Announcement description'],
+                              subtitle: Text(_newsItems[index]['description'],
                                   style: GoogleFonts.poppins(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w200,

@@ -97,6 +97,8 @@ class _ManageUsersState extends State<ManageUsers> {
 
                     print(_total_guards);
                     return ListView.builder(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
                         itemCount: _userItems.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) => Card(
