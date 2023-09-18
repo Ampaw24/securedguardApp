@@ -1,4 +1,4 @@
-// ignore_for_file: sort_child_properties_last, prefer_const_constructors, unused_field, prefer_final_fields
+// ignore_for_file: sort_child_properties_last, prefer_const_constructors, unused_field, prefer_final_fields, no_leading_underscores_for_local_identifiers
 
 import 'dart:io';
 import 'package:atusecurityapp/constants/textstyle.dart';
@@ -76,75 +76,74 @@ class _AnnouncementsState extends State<Announcements> {
             preferredSize: const Size.fromHeight(60)),
         body: SafeArea(
           child: Scrollbar(
-            child: Expanded(
-                child: StreamBuilder(
-                    stream: _newsCollection.onValue,
-                    builder: (context, snapShot) {
-                      if (snapShot.hasData &&
-                          !snapShot.hasError &&
-                          snapShot.data?.snapshot.value != null) {
-                        Map _newsCollections =
-                            snapShot.data?.snapshot.value as Map;
-                        List _newsItems = [];
-                        _newsCollections.forEach((index, data) =>
-                            _newsItems.add({"key": index, ...data}));
+            child: StreamBuilder(
+                stream: _newsCollection.onValue,
+                builder: (context, snapShot) {
+                  if (snapShot.hasData &&
+                      !snapShot.hasError &&
+                      snapShot.data?.snapshot.value != null) {
+                    Map _newsCollections =
+                        snapShot.data?.snapshot.value as Map;
+                    List _newsItems = [];
+                    _newsCollections.forEach((index, data) =>
+                        _newsItems.add({"key": index, ...data}));
 
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: _newsItems.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              leading: ClipRRect(
-                                  child: Container(
-                                    color: AppColors.cardYellow,
-                                    width: 50,
-                                    height: 50,
-                                    child: Center(
-                                        child: Text(
-                                      _newsItems[index]['announcementId'],
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 15,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600),
-                                    )),
-                                  ),
-                                  borderRadius: BorderRadius.circular(10)),
-                              trailing: GestureDetector(
-                                onTap: () async {
-                                  await deleteMessage(_newsItems[index]['key']);
-
-                                  Fluttertoast.showToast(
-                                      msg: "Announcement Deleted!!",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.black45,
-                                      textColor: Colors.white,
-                                      fontSize: 15.0);
-                                },
-                                child: Icon(
-                                  FontAwesomeIcons.trashCan,
-                                  size: 18,
-                                  color: AppColors.btnBlue,
-                                  weight: 3,
-                                ),
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: _newsItems.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          leading: ClipRRect(
+                              child: Container(
+                                color: AppColors.cardYellow,
+                                width: 50,
+                                height: 50,
+                                child: Center(
+                                    child: Text(
+                                  _newsItems[index]['announcementId'],
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600),
+                                )),
                               ),
-                              contentPadding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              title: Text(_newsItems[index]['title'],
-                                  style: GoogleFonts.poppins(
-                                      textStyle: headerboldblue2)),
-                              subtitle: Text(_newsItems[index]['description'],
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w200,
-                                      textStyle: TextStyle())),
-                            );
-                          },
+                              borderRadius: BorderRadius.circular(10)),
+                          trailing: GestureDetector(
+                            onTap: () async {
+                              await deleteMessage(_newsItems[index]['key']);
+
+                              Fluttertoast.showToast(
+                                  msg: "Announcement Deleted!!",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.black45,
+                                  textColor: Colors.white,
+                                  fontSize: 15.0);
+                            },
+                            child: Icon(
+                              FontAwesomeIcons.trashCan,
+                              size: 18,
+                              color: AppColors.btnBlue,
+                              weight: 3,
+                            ),
+                          ),
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 15),
+                          title: Text(_newsItems[index]['title'],
+                              style: GoogleFonts.poppins(
+                                  textStyle: headerboldblue2)),
+                          subtitle: Text(_newsItems[index]['description'],
+                              style: GoogleFonts.poppins(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w200,
+                                  textStyle: TextStyle())),
                         );
-                      }
-                      return Container();
-                    })),
+                      },
+                    );
+                  }
+                  return Container();
+                }),
           ),
         ),
         floatingActionButton: FloatingActionButton(

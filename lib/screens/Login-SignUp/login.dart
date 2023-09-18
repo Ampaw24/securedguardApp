@@ -39,12 +39,11 @@ class _LoginPageState extends State<LoginPage> {
           email: "${_mailcontroller.text.trim()}@staff.sm",
           password: _passwordcontroller.text);
       if (user != null) {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Dashboard(
-                      username: _mailcontroller.text,
-                    )));
+        Future.delayed(
+            Duration(
+              seconds: 20,
+            ),
+            () => Get.to(Dashboard(username: _mailcontroller.text)));
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -53,15 +52,16 @@ class _LoginPageState extends State<LoginPage> {
           isErr = true;
           _mailcontroller.text = "";
         });
+      } else if (e.code == 'user-not-found') {
+        setState(() {
+          _isloading = false;
+        });
+      } else if (e.code == 'invalid-email') {
+        setState(() {
+          _isloading = false;
+        });
       }
     }
-  }
-
-  Widget displayError(String _title, String _message) {
-    return GetSnackBar(
-      title: _title,
-      message: _message,
-    );
   }
 
   @override
