@@ -31,6 +31,12 @@ class _LoginPageState extends State<LoginPage> {
   bool isErr = false;
 
   void _signInwithMail() async {
+    FocusScopeNode currentFocus = FocusScope.of(context);
+
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+
     setState(() {
       _isloading = true;
     });
@@ -52,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
           isErr = true;
           _mailcontroller.text = "";
         });
-      } else if (e.code == 'user-not-found') {
+      } else if (e.code == "account-exists-with-different-credential") {
         setState(() {
           _isloading = false;
         });
@@ -60,7 +66,15 @@ class _LoginPageState extends State<LoginPage> {
         setState(() {
           _isloading = false;
         });
+      } else {
+        setState(() {
+          _isloading = false;
+        });
       }
+    } catch (e) {
+      setState(() {
+        _isloading = false;
+      });
     }
   }
 
@@ -177,56 +191,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-// void _signInWithEmailAndPassword() async {
-//       if (_formKey.currentState!.validate()) {
-//         setState(() {
-//           _isLoading = true;
-//           _error = '';
-//         });
-
-//         try {
-//           // Attempt to sign in with email and password
-//           final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-//             email: _emailController.text.trim(),
-//             password: _passwordController.text,
-//           );
-
-//           // Navigate to home page if sign in successful
-//           if (userCredential.user != null) {
-//             final firebaseUser = userCredential.user!;
-//             final user = MyUser.fromFirebaseUser(firebaseUser);
-//             Navigator.pushReplacement(
-//               context,
-//               MaterialPageRoute(builder: (context) => HomePage(user: user)),
-//             );
-//           }
-//         } on FirebaseAuthException catch (e) {
-//           if (e.code == 'wrong-password') {
-//             setState(() {
-//               _isLoading = false;
-//               _error = 'The password is incorrect. Please try again.';
-//             });
-//           } else if (e.code == 'user-not-found') {
-//             setState(() {
-//               _isLoading = false;
-//               _error = 'There is no user associated with this email. The user may have been deleted.';
-//             });
-//           } else if (e.code == 'invalid-email') {
-//             setState(() {
-//               _isLoading = false;
-//               _error = 'The email is not valid. Please check and try again.';
-//             });
-//           } else {
-//             setState(() {
-//               _isLoading = false;
-//               _error = 'Something went wrong. Please try again.';
-//             });
-//           }
-//         } catch (e) {
-//           setState(() {
-//             _isLoading = false;
-//             _error = 'Something went wrong. Please try again.';
-//           });
-//         }
-//       }
-//     }
