@@ -23,16 +23,6 @@ class _AssignmentFormState extends State<AssignmentForm> {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   GuardLocationAssignment assignment = GuardLocationAssignment();
 
-  // final databaseRef = FirebaseDatabase.instance.ref('iii');
-  // DataSnapshot dataSnapshot = databaseRef.once();
-  // List<dynamic> values = dataSnapshot.value;
-  // List<DropdownMenuItem<dynamic>> items = [];
-  // values.forEach((value){
-  //   items.add(DropdownMenuItem(
-  //     value:value,
-  //     child:Text(vallue),
-  //   ))
-  // });
   final _reportCollection = FirebaseDatabase.instance.ref('PostSitesLocations');
 
   deleteMessage(key) {
@@ -56,7 +46,7 @@ class _AssignmentFormState extends State<AssignmentForm> {
     List<String> locations = [];
 
     Map<String, String>? values = snapShot.value as Map<String, String>?;
-    
+
     print(values);
 
     if (values != null) {
@@ -72,6 +62,9 @@ class _AssignmentFormState extends State<AssignmentForm> {
 
     return locations;
   }
+
+  List<String> Guards = ["Jephtah Crimps", "Edmund Dela", "Gregory Grants"];
+  List<String> locations = ["KG9", "Back Gate"];
 
   @override
   Widget build(BuildContext context) {
@@ -103,12 +96,10 @@ class _AssignmentFormState extends State<AssignmentForm> {
                       color: Colors.black,
                     ))),
                     name: 'guard_name',
-                    items: ['Guard 1', 'Guard 2', 'Guard 3']
-                        .map((guard) => DropdownMenuItem(
-                              value: guard,
-                              child: Text(guard),
-                            ))
-                        .toList(),
+                    items: Guards.map((guard) => DropdownMenuItem(
+                          value: guard,
+                          child: Text(guard),
+                        )).toList(),
                     onChanged: (value) {
                       setState(() {
                         assignment.guardName = value.toString();
@@ -118,41 +109,6 @@ class _AssignmentFormState extends State<AssignmentForm> {
                 ),
                 const SizedBox(
                   height: 30,
-                ),
-                FutureBuilder<List<String>>(
-                  future: fetchLocationsFromDatabase(),
-                  builder: (context, snapShot) {
-                    if (snapShot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
-                    } else if (snapShot.hasError) {
-                      return Text('Error: ${snapShot.error}');
-                    } else {
-                      List<String>? locations = snapShot.data;
-                      return FormBuilderDropdown(
-                        elevation: 5,
-                        decoration: const InputDecoration(
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                          style: BorderStyle.solid,
-                          color: Colors.black,
-                        ))),
-                        icon: Icon(Icons.location_on),
-                        initialValue: "Location 1",
-                        name: 'location_name',
-                        items: locations!
-                            .map((location) => DropdownMenuItem(
-                                  value: location,
-                                  child: Text(location),
-                                ))
-                            .toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            assignment.locationName = value.toString();
-                          });
-                        },
-                      );
-                    }
-                  },
                 ),
                 FormBuilderDropdown(
                   elevation: 5,
@@ -165,7 +121,7 @@ class _AssignmentFormState extends State<AssignmentForm> {
                   icon: Icon(Icons.location_on),
                   initialValue: "Location 1",
                   name: 'location_name',
-                  items: ['Location 1', 'Location 2', 'Location 3']
+                  items: locations
                       .map((location) => DropdownMenuItem(
                             value: location,
                             child: Text(location),
