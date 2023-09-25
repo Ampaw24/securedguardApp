@@ -3,7 +3,6 @@
 import 'dart:io';
 import 'package:atusecurityapp/constants/textstyle.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../constants/colors.dart';
@@ -239,48 +238,48 @@ class _AnnouncementsState extends State<Announcements> {
                                     };
 
                                     dbRef?.push().set(news).then((_) {
-                                      Flushbar(
-                                        title: "Annoucement Posted",
-                                        message:
-                                            "Annoucement ${newsTitleController.text} posted",
-                                        duration: Duration(seconds: 4),
-                                        icon: Icon(Icons.done_outline_rounded,
-                                            color: Colors.white),
-                                        backgroundColor:
-                                            Color.fromARGB(255, 43, 51, 54)
-                                                .withOpacity(0.6),
-                                        flushbarPosition: FlushbarPosition.TOP,
-                                        animationDuration:
-                                            Duration(milliseconds: 500),
-                                        borderRadius: BorderRadius.circular(10),
-                                        margin: EdgeInsets.all(8.0),
-                                        onTap: (flushbar) {
-                                          flushbar.dismiss();
-                                        },
-                                      ).show(context);
+                                      // Flushbar(
+                                      //   title: "Annoucement Posted",
+                                      //   message:
+                                      //       "Annoucement ${newsTitleController.text} posted",
+                                      //   duration: Duration(seconds: 4),
+                                      //   icon: Icon(Icons.done_outline_rounded,
+                                      //       color: Colors.white),
+                                      //   backgroundColor:
+                                      //       Color.fromARGB(255, 43, 51, 54)
+                                      //           .withOpacity(0.6),
+                                      //   flushbarPosition: FlushbarPosition.TOP,
+                                      //   animationDuration:
+                                      //       Duration(milliseconds: 500),
+                                      //   borderRadius: BorderRadius.circular(10),
+                                      //   margin: EdgeInsets.all(8.0),
+                                      //   onTap: (flushbar) {
+                                      //     flushbar.dismiss();
+                                      //   },
+                                      // ).show(context);
                                       idcontroller.text = "";
                                       newsTitleController.text = "";
                                       newsDescriptionController.text = "";
                                     }).catchError((_) {
-                                      Flushbar(
-                                        title: "News Post Error",
-                                        message:
-                                            "News ${newsTitleController.text} Error",
-                                        duration: Duration(seconds: 4),
-                                        icon: Icon(Icons.done_outline_rounded,
-                                            color: Colors.white),
-                                        backgroundColor:
-                                            Color.fromARGB(255, 237, 51, 51)
-                                                .withOpacity(0.6),
-                                        flushbarPosition: FlushbarPosition.TOP,
-                                        animationDuration:
-                                            Duration(milliseconds: 300),
-                                        borderRadius: BorderRadius.circular(10),
-                                        margin: EdgeInsets.all(8.0),
-                                        onTap: (flushbar) {
-                                          flushbar.dismiss();
-                                        },
-                                      ).show(context);
+                                      // Flushbar(
+                                      //   title: "News Post Error",
+                                      //   message:
+                                      //       "News ${newsTitleController.text} Error",
+                                      //   duration: Duration(seconds: 4),
+                                      //   icon: Icon(Icons.done_outline_rounded,
+                                      //       color: Colors.white),
+                                      //   backgroundColor:
+                                      //       Color.fromARGB(255, 237, 51, 51)
+                                      //           .withOpacity(0.6),
+                                      //   flushbarPosition: FlushbarPosition.TOP,
+                                      //   animationDuration:
+                                      //       Duration(milliseconds: 300),
+                                      //   borderRadius: BorderRadius.circular(10),
+                                      //   margin: EdgeInsets.all(8.0),
+                                      //   onTap: (flushbar) {
+                                      //     flushbar.dismiss();
+                                      //   },
+                                      // ).show(context);
                                     });
                                   },
                                   child: Container(

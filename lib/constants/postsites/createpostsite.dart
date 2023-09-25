@@ -1,10 +1,12 @@
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, non_constant_identifier_names
 
 import 'package:atusecurityapp/constants/colors.dart';
 import 'package:atusecurityapp/constants/textstyle.dart';
+import 'package:atusecurityapp/modules/guardassignmodule.dart';
+import 'package:atusecurityapp/services/databasehandler.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_flushbar/flutter_flushbar.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import '../../modules/locationmodule.dart';
@@ -52,6 +54,8 @@ class _CreatePostState extends State<CreatePost> {
 
   @override
   Widget build(BuildContext context) {
+    
+  
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Location Form'),
@@ -147,6 +151,7 @@ class _CreatePostState extends State<CreatePost> {
                       _nameController.text = "";
                       _addressController.text = " ";
                       _addressdController.text = " ";
+                    
 
                       Get.showSnackbar(GetSnackBar(
                         title: "Location Added",

@@ -4,7 +4,6 @@ import 'package:atusecurityapp/constants/colors.dart';
 import 'package:atusecurityapp/screens/Login-SignUp/login.dart';
 import 'package:atusecurityapp/widget/curledContainer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../constants/firebase/firebaseauth.dart';
 import '../../constants/textstyle.dart';
@@ -205,25 +204,25 @@ class _SignUpPageState extends State<SignUpPage> {
                                     builder: (context) => LoginPage(),
                                   ),
                                 );
-                                Flushbar(
-                                  title: "SignUp Success",
-                                  message:
-                                      "You are now an admin!! Enter Login Credentials to continue \n to dashboard",
-                                  duration: Duration(seconds: 4),
-                                  icon: Icon(Icons.done_outline_rounded,
-                                      color: Colors.white),
-                                  backgroundColor:
-                                      Color.fromARGB(255, 52, 59, 61)
-                                          .withOpacity(0.6),
-                                  flushbarPosition: FlushbarPosition.TOP,
-                                  animationDuration:
-                                      Duration(milliseconds: 500),
-                                  borderRadius: BorderRadius.circular(10),
-                                  margin: EdgeInsets.all(8.0),
-                                  onTap: (flushbar) {
-                                    flushbar.dismiss();
-                                  },
-                                ).show(context);
+                                // Flushbar(
+                                //   title: "SignUp Success",
+                                //   message:
+                                //       "You are now an admin!! Enter Login Credentials to continue \n to dashboard",
+                                //   duration: Duration(seconds: 4),
+                                //   icon: Icon(Icons.done_outline_rounded,
+                                //       color: Colors.white),
+                                //   backgroundColor:
+                                //       Color.fromARGB(255, 52, 59, 61)
+                                //           .withOpacity(0.6),
+                                //   flushbarPosition: FlushbarPosition.TOP,
+                                //   animationDuration:
+                                //       Duration(milliseconds: 500),
+                                //   borderRadius: BorderRadius.circular(10),
+                                //   margin: EdgeInsets.all(8.0),
+                                //   onTap: (flushbar) {
+                                //     flushbar.dismiss();
+                                //   },
+                                // ).show(context);
                               } else {
                                 print("$result");
                               }

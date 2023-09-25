@@ -41,7 +41,7 @@ class _DashboardState extends State<Dashboard> {
     DashboardModule("Reports", Icons.report, 5, ReportPage()),
     DashboardModule("Post Sites", Icons.location_on, 5, BTMnav(pageIndex: 1)),
     DashboardModule("Messages", Icons.message, 5, MessageView()),
-    DashboardModule("Profile", Icons.person, 5, ProfilePage()),
+    DashboardModule("Profile", Icons.person, 5, ProfilePage()),//replaced with tips pages
     DashboardModule("Announ\ncement", Icons.announcement, 5, Announcements()),
   ];
 

@@ -189,7 +189,7 @@ class _ReportPageState extends State<ReportPage> {
                                                     await deleteMessage(
                                                         _reportItems[index]
                                                             ['key']);
-                                                    Get.back();
+                                                 
                                                   });
 
                                                   // Close the dialog
