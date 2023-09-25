@@ -1,11 +1,13 @@
-// ignore_for_file: sort_child_properties_last, prefer_const_constructors, use_build_context_synchronously
+// ignore_for_file: sort_child_properties_last, prefer_const_constructors, use_build_context_synchronously, no_leading_underscores_for_local_identifiers
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../colors.dart';
 import '../textstyle.dart';
+import 'package:firebase_ui_database/firebase_ui_database.dart';
 
 class GuardLocationAssignment {
   String guardName = "";
@@ -23,7 +25,7 @@ class _AssignmentFormState extends State<AssignmentForm> {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   GuardLocationAssignment assignment = GuardLocationAssignment();
 
-  final _reportCollection = FirebaseDatabase.instance.ref('PostSitesLocations');
+  final _reportCollection = FirebaseDatabase.instance.ref('Users');
 
   deleteMessage(key) {
     _reportCollection.child(key).remove();
@@ -34,37 +36,13 @@ class _AssignmentFormState extends State<AssignmentForm> {
   @override
   void initState() {
     super.initState();
-    dbRef = FirebaseDatabase.instance
-        .ref()
-        .child('PostSitesLocations/loacation_Id');
+    dbRef = FirebaseDatabase.instance.ref().child('Users');
     print(dbRef);
   }
 
-  Future<List<String>> fetchLocationsFromDatabase() async {
-    DataSnapshot snapShot =
-        (await _reportCollection.child('PostSitesLocations').once()).snapshot;
-    List<String> locations = [];
-
-    Map<String, String>? values = snapShot.value as Map<String, String>?;
-
-    print(values);
-
-    if (values != null) {
-      values.forEach((key, value) {
-        locations.add(value.toString());
-      });
-    } else {
-      await showDialog(
-          context: context,
-          builder: (BuildContext ctx) => AlertDialog(
-              title: Text('No Locations Found'), content: Text("Please Add")));
-    }
-
-    return locations;
-  }
-
-  List<String> Guards = ["Jephtah Crimps", "Edmund Dela", "Gregory Grants"];
-  List<String> locations = ["KG9", "Back Gate"];
+  int? selectedOption;
+  String selectedGuard = " ";
+  String selectedLocation = " ";
 
   @override
   Widget build(BuildContext context) {
@@ -80,61 +58,220 @@ class _AssignmentFormState extends State<AssignmentForm> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               children: [
+                ListView(
+                  shrinkWrap: true,
+                  children: [
+                    Card(
+                      elevation: 10.0,
+                      color: Colors.white,
+                      child: ListTile(
+                          title: Text(
+                            "Select Guard",
+                            style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          subtitle: Text("Selected: ${selectedGuard}",
+                              style: GoogleFonts.poppins(
+                                  color: const Color.fromARGB(255, 30, 30, 30),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w200)),
+                          trailing: IconButton(
+                              onPressed: () {
+                                Get.bottomSheet(
+                                  enableDrag: true,
+                                  isDismissible: true,
+                                  SingleChildScrollView(
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.70,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(10),
+                                          topRight: Radius.circular(10),
+                                        ),
+                                      ),
+                                      child: SafeArea(
+                                        child: StreamBuilder(
+                                            stream: _reportCollection.onValue,
+                                            builder: (context, snapShot) {
+                                              if (snapShot.hasData &&
+                                                  !snapShot.hasError &&
+                                                  snapShot.data?.snapshot
+                                                          .value !=
+                                                      null) {
+                                                Map _locationCollections =
+                                                    snapShot.data?.snapshot
+                                                        .value as Map;
+                                                List _locationItems = [];
+                                                _locationCollections.forEach(
+                                                    (index, data) =>
+                                                        _locationItems.add({
+                                                          "key": index,
+                                                          ...data
+                                                        }));
+
+                                                return ListView.builder(
+                                                    itemCount:
+                                                        _locationItems.length,
+                                                    itemBuilder:
+                                                        (context, index) =>
+                                                            Card(
+                                                              color:
+                                                                  Colors.white,
+                                                              elevation: 10,
+                                                              child: ListTile(
+                                                                  onTap: () {
+                                                                    setState(
+                                                                        () {
+                                                                      selectedGuard =
+                                                                          _locationItems[index]
+                                                                              [
+                                                                              'name'];
+                                                                    });
+                                                                    Get.back();
+                                                                  },
+                                                                  title: Text(_locationItems[
+                                                                          index]
+                                                                      [
+                                                                      'name'])),
+                                                            ));
+                                              }
+
+                                              return Container();
+                                            }),
+                                      ),
+                                    ),
+                                  ),
+                                  isScrollControlled: true,
+                                );
+                              },
+                              icon: Icon(Icons.move_down)),
+                          leading: Container(
+                            height: 35,
+                            width: 35,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(17.5),
+                              image: DecorationImage(
+                                  image: AssetImage('assets/guard.png'),
+                                  fit: BoxFit.cover),
+                            ),
+                          )),
+                    ),
+                  ],
+                ),
                 const SizedBox(
                   height: 30,
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: FormBuilderDropdown(
-                    icon: Icon(Icons.security),
-                    initialValue: "Guard 1",
-                    elevation: 5,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                      style: BorderStyle.solid,
-                      color: Colors.black,
-                    ))),
-                    name: 'guard_name',
-                    items: Guards.map((guard) => DropdownMenuItem(
-                          value: guard,
-                          child: Text(guard),
-                        )).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        assignment.guardName = value.toString();
-                      });
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                FormBuilderDropdown(
-                  elevation: 5,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                    style: BorderStyle.solid,
-                    color: Colors.black,
-                  ))),
-                  icon: Icon(Icons.location_on),
-                  initialValue: "Location 1",
-                  name: 'location_name',
-                  items: locations
-                      .map((location) => DropdownMenuItem(
-                            value: location,
-                            child: Text(location),
-                          ))
-                      .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      assignment.locationName = value.toString();
-                    });
-                  },
-                ),
-                const SizedBox(
-                  height: 30,
+                ListView(
+                  shrinkWrap: true,
+                  children: [
+                    Card(
+                      elevation: 10.0,
+                      color: Colors.white,
+                      child: ListTile(
+                          title: Text(
+                            "Choose Location",
+                            style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          subtitle: Text("Selected: ${selectedLocation}",
+                              style: GoogleFonts.poppins(
+                                  color: const Color.fromARGB(255, 30, 30, 30),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w200)),
+                          trailing: IconButton(
+                              onPressed: () {
+                                Get.bottomSheet(
+                                  enableDrag: true,
+                                  isDismissible: true,
+                                  SingleChildScrollView(
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.70,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(10),
+                                          topRight: Radius.circular(10),
+                                        ),
+                                      ),
+                                      child: SafeArea(
+                                        child: StreamBuilder(
+                                            stream: _reportCollection.onValue,
+                                            builder: (context, snapShot) {
+                                              if (snapShot.hasData &&
+                                                  !snapShot.hasError &&
+                                                  snapShot.data?.snapshot
+                                                          .value !=
+                                                      null) {
+                                                Map _locationCollections =
+                                                    snapShot.data?.snapshot
+                                                        .value as Map;
+                                                List _locationItems = [];
+                                                _locationCollections.forEach(
+                                                    (index, data) =>
+                                                        _locationItems.add({
+                                                          "key": index,
+                                                          ...data
+                                                        }));
+
+                                                return ListView.builder(
+                                                    itemCount:
+                                                        _locationItems.length,
+                                                    itemBuilder:
+                                                        (context, index) =>
+                                                            Card(
+                                                              color:
+                                                                  Colors.white,
+                                                              elevation: 10,
+                                                              child: ListTile(
+                                                                  onTap: () {
+                                                                    setState(
+                                                                        () {
+                                                                      selectedGuard =
+                                                                          _locationItems[index]
+                                                                              [
+                                                                              'name'];
+                                                                    });
+                                                                    Get.back();
+                                                                  },
+                                                                  title: Text(_locationItems[
+                                                                          index]
+                                                                      [
+                                                                      'name'])),
+                                                            ));
+                                              }
+
+                                              return Container();
+                                            }),
+                                      ),
+                                    ),
+                                  ),
+                                  isScrollControlled: true,
+                                );
+                              },
+                              icon: Icon(Icons.move_down)),
+                          leading: Container(
+                            height: 35,
+                            width: 35,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(17.5),
+                              image: DecorationImage(
+                                  image: AssetImage('assets/location.gif'),
+                                  fit: BoxFit.cover),
+                            ),
+                          )),
+                    ),
+                  ],
                 ),
                 FormBuilderDateTimePicker(
                   name: 'start_time',
@@ -162,7 +299,6 @@ class _AssignmentFormState extends State<AssignmentForm> {
                 SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    print("readd");
                     if (_formKey.currentState!.saveAndValidate()) {
                       // Form data is valid, you can perform the assignment here.
                       print('Assignment Data:');
@@ -171,10 +307,6 @@ class _AssignmentFormState extends State<AssignmentForm> {
                       print('Start Time: ${assignment.startTime}');
                       print('End Time: ${assignment.endTime}');
                     }
-
-                    // Map<String,dynamic> GuardAssign = [
-                    //   'Guard_Name':
-                    // ];
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -202,4 +334,17 @@ class _AssignmentFormState extends State<AssignmentForm> {
       ),
     );
   }
+}
+
+void showGuardPop() {
+  Get.defaultDialog(
+      title: "Welcome to Flutter Dev'S",
+      middleText:
+          "FlutterDevs is a protruding flutter app development company with "
+          "an extensive in-house team of 30+ seasoned professionals who know "
+          "exactly what you need to strengthen your business across various dimensions",
+      backgroundColor: Colors.white,
+      titleStyle: TextStyle(color: Colors.white),
+      middleTextStyle: TextStyle(color: Colors.white),
+      radius: 10);
 }

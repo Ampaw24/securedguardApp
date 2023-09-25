@@ -58,59 +58,62 @@ class _ManageUsersState extends State<ManageUsers> {
             backgroundColor: Colors.white,
           ),
           preferredSize: const Size.fromHeight(60)),
-      body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(
-          "     Guards  ${_total_guards.toString()}",
-          style: GoogleFonts.roboto(textStyle: headerboldblue2),
-        ),
-        StreamBuilder(
-            stream: _userCollection.onValue,
-            builder: (context, snapShot) {
-              if (snapShot.hasData &&
-                  !snapShot.hasError &&
-                  snapShot.data?.snapshot.value != null) {
-                Map _userCollections = snapShot.data?.snapshot.value as Map;
-                List _userItems = [];
-                _userCollections.forEach(
-                    (index, data) => _userItems.add({"key": index, ...data}));
-                _total_guards = _userItems.length;
-                return ListView.builder(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
-                    itemCount: _userItems.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) => Card(
-                          elevation: 5,
-                          color: Colors.white,
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          child: ListTile(
-                            trailing: GestureDetector(child: Icon(Icons.info)),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 20),
-                            leading: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Container(
-                                height: 50,
-                                width: 50,
-                                color: AppColors.cardBlue,
-                                child: Icon(
-                                  Icons.supervised_user_circle_outlined,
-                                  color: Colors.white,
+      body: SingleChildScrollView(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(
+            "     Guards  ${_total_guards.toString()}",
+            style: GoogleFonts.roboto(textStyle: headerboldblue2),
+          ),
+          StreamBuilder(
+              stream: _userCollection.onValue,
+              builder: (context, snapShot) {
+                if (snapShot.hasData &&
+                    !snapShot.hasError &&
+                    snapShot.data?.snapshot.value != null) {
+                  Map _userCollections = snapShot.data?.snapshot.value as Map;
+                  List _userItems = [];
+                  _userCollections.forEach(
+                      (index, data) => _userItems.add({"key": index, ...data}));
+                  _total_guards = _userItems.length;
+                  return ListView.builder(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      itemCount: _userItems.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => Card(
+                            elevation: 5,
+                            color: Colors.white,
+                            margin: const EdgeInsets.symmetric(vertical: 10),
+                            child: ListTile(
+                              trailing:
+                                  GestureDetector(child: Icon(Icons.info)),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 20, horizontal: 20),
+                              leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Container(
+                                  height: 50,
+                                  width: 50,
+                                  color: AppColors.cardBlue,
+                                  child: Icon(
+                                    Icons.supervised_user_circle_outlined,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
+                              subtitle: Text(_userItems[index]['email']),
+                              title: Text(
+                                _userItems[index]['name'],
+                                style: GoogleFonts.poppins(
+                                    textStyle: headerboldblue2),
+                              ),
                             ),
-                            subtitle: Text(_userItems[index]['email']),
-                            title: Text(
-                              _userItems[index]['name'],
-                              style: GoogleFonts.poppins(
-                                  textStyle: headerboldblue2),
-                            ),
-                          ),
-                        ));
-              }
-              return Container();
-            }),
-      ]),
+                          ));
+                }
+                return Container();
+              }),
+        ]),
+      ),
     );
   }
 }
