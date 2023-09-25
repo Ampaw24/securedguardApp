@@ -2,11 +2,12 @@
 
 import 'package:atusecurityapp/constants/colors.dart';
 import 'package:atusecurityapp/constants/textstyle.dart';
+import 'package:atusecurityapp/module/locationmodule.dart';
 import 'package:atusecurityapp/modules/guardassignmodule.dart';
 import 'package:atusecurityapp/services/databasehandler.dart';
+import 'package:atusecurityapp/services/databaselocationhelper.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import '../../modules/locationmodule.dart';
@@ -54,8 +55,6 @@ class _CreatePostState extends State<CreatePost> {
 
   @override
   Widget build(BuildContext context) {
-    
-  
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Location Form'),
@@ -141,18 +140,22 @@ class _CreatePostState extends State<CreatePost> {
                             color: Colors.blue,
                           )
                         : Container();
+                    final Locations model = Locations(
+                        locationId: _nameController.text,
+                        location_name: _addressdController.text);
+
                     Map<String, String> location = {
                       'loacation_Id': _nameController.text,
                       'location_Name': _addressController.text,
                       'location_Description': _addressdController.text
                     };
 
-                    await dbRef?.push().set(location).then((_) {
+                    await dbRef?.push().set(location).then((_) async {
                       _nameController.text = "";
                       _addressController.text = " ";
                       _addressdController.text = " ";
-                    
 
+                      await DbHelper.addLocation(model);
                       Get.showSnackbar(GetSnackBar(
                         title: "Location Added",
                         message:

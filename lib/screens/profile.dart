@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_final_fields, avoid_unnecessary_containers
 
 import 'dart:typed_data';
-
 import 'package:atusecurityapp/constants/colors.dart';
 import 'package:atusecurityapp/module/storedata.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -9,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../constants/textstyle.dart';
 import '../constants/utils.dart';
 
@@ -21,7 +19,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  
   GlobalKey _formkey = GlobalKey();
   Uint8List? _image;
   TextEditingController _passwordController = TextEditingController();
@@ -36,7 +33,9 @@ class _ProfilePageState extends State<ProfilePage> {
   void saveProfile() async {
     String username = _staffIdController.text;
     String resp = await StoreData().saveUrldb(name: username, file: _image!);
+
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -106,10 +105,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     )),
               ],
-            ),
-            Text(
-              "Fermin",
-              style: GoogleFonts.roboto(textStyle: headerboldblue1),
             ),
             Text(
               "Admin",
