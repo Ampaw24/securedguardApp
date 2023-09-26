@@ -81,8 +81,7 @@ class _AnnouncementsState extends State<Announcements> {
                   if (snapShot.hasData &&
                       !snapShot.hasError &&
                       snapShot.data?.snapshot.value != null) {
-                    Map _newsCollections =
-                        snapShot.data?.snapshot.value as Map;
+                    Map _newsCollections = snapShot.data?.snapshot.value as Map;
                     List _newsItems = [];
                     _newsCollections.forEach((index, data) =>
                         _newsItems.add({"key": index, ...data}));
@@ -238,48 +237,31 @@ class _AnnouncementsState extends State<Announcements> {
                                     };
 
                                     dbRef?.push().set(news).then((_) {
-                                      // Flushbar(
-                                      //   title: "Annoucement Posted",
-                                      //   message:
-                                      //       "Annoucement ${newsTitleController.text} posted",
-                                      //   duration: Duration(seconds: 4),
-                                      //   icon: Icon(Icons.done_outline_rounded,
-                                      //       color: Colors.white),
-                                      //   backgroundColor:
-                                      //       Color.fromARGB(255, 43, 51, 54)
-                                      //           .withOpacity(0.6),
-                                      //   flushbarPosition: FlushbarPosition.TOP,
-                                      //   animationDuration:
-                                      //       Duration(milliseconds: 500),
-                                      //   borderRadius: BorderRadius.circular(10),
-                                      //   margin: EdgeInsets.all(8.0),
-                                      //   onTap: (flushbar) {
-                                      //     flushbar.dismiss();
-                                      //   },
-                                      // ).show(context);
+                                      Get.showSnackbar(GetSnackBar(
+                                        title: "Annoucement Posted",
+                                        message:
+                                            "Annoucement ${newsTitleController.text} posted",
+                                        duration: Duration(seconds: 4),
+                                        backgroundColor:
+                                            Color.fromARGB(255, 43, 51, 54)
+                                                .withOpacity(0.6),
+                                        margin: EdgeInsets.all(8.0),
+                                      ));
+
                                       idcontroller.text = "";
                                       newsTitleController.text = "";
                                       newsDescriptionController.text = "";
                                     }).catchError((_) {
-                                      // Flushbar(
-                                      //   title: "News Post Error",
-                                      //   message:
-                                      //       "News ${newsTitleController.text} Error",
-                                      //   duration: Duration(seconds: 4),
-                                      //   icon: Icon(Icons.done_outline_rounded,
-                                      //       color: Colors.white),
-                                      //   backgroundColor:
-                                      //       Color.fromARGB(255, 237, 51, 51)
-                                      //           .withOpacity(0.6),
-                                      //   flushbarPosition: FlushbarPosition.TOP,
-                                      //   animationDuration:
-                                      //       Duration(milliseconds: 300),
-                                      //   borderRadius: BorderRadius.circular(10),
-                                      //   margin: EdgeInsets.all(8.0),
-                                      //   onTap: (flushbar) {
-                                      //     flushbar.dismiss();
-                                      //   },
-                                      // ).show(context);
+                                      Get.showSnackbar(GetSnackBar(
+                                        title: "Announcement Post Error",
+                                        message:
+                                            "Annoucement ${newsTitleController.text} posted Error",
+                                        duration: Duration(seconds: 4),
+                                        backgroundColor:
+                                            Color.fromARGB(255, 43, 51, 54)
+                                                .withOpacity(0.6),
+                                        margin: EdgeInsets.all(8.0),
+                                      ));
                                     });
                                   },
                                   child: Container(

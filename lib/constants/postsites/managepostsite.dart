@@ -24,20 +24,26 @@ class AssignmentForm extends StatefulWidget {
 class _AssignmentFormState extends State<AssignmentForm> {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   GuardLocationAssignment assignment = GuardLocationAssignment();
-
+  final _endTimeController = TextEditingController();
+  final _startTimeController = TextEditingController();
   final _reportCollection = FirebaseDatabase.instance.ref('Users');
-
+  final _postCollection = FirebaseDatabase.instance.ref('GuardAllocations');
+  final _locationCollection =
+      FirebaseDatabase.instance.ref('PostSitesLocations');
+  String? endTimeAll;
+  String? startTimeAll;
   deleteMessage(key) {
     _reportCollection.child(key).remove();
   }
 
   DatabaseReference? dbRef;
+  DatabaseReference? dbref;
 
   @override
   void initState() {
     super.initState();
     dbRef = FirebaseDatabase.instance.ref().child('Users');
-    print(dbRef);
+    dbref = FirebaseDatabase.instance.ref().child('GuardAllocations');
   }
 
   int? selectedOption;
@@ -48,7 +54,10 @@ class _AssignmentFormState extends State<AssignmentForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Guard Assignment'),
+        title: const Text(
+          'Guard Allocations',
+          style: TextStyle(fontSize: 19),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -125,6 +134,8 @@ class _AssignmentFormState extends State<AssignmentForm> {
                                                                   Colors.white,
                                                               elevation: 10,
                                                               child: ListTile(
+                                                                  leading:
+                                                                      ImgRound(),
                                                                   onTap: () {
                                                                     setState(
                                                                         () {
@@ -151,21 +162,12 @@ class _AssignmentFormState extends State<AssignmentForm> {
                                 );
                               },
                               icon: Icon(Icons.move_down)),
-                          leading: Container(
-                            height: 35,
-                            width: 35,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(17.5),
-                              image: DecorationImage(
-                                  image: AssetImage('assets/guard.png'),
-                                  fit: BoxFit.cover),
-                            ),
-                          )),
+                          leading: ImgRound()),
                     ),
                   ],
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
                 ListView(
                   shrinkWrap: true,
@@ -206,27 +208,27 @@ class _AssignmentFormState extends State<AssignmentForm> {
                                       ),
                                       child: SafeArea(
                                         child: StreamBuilder(
-                                            stream: _reportCollection.onValue,
+                                            stream: _locationCollection.onValue,
                                             builder: (context, snapShot) {
                                               if (snapShot.hasData &&
                                                   !snapShot.hasError &&
                                                   snapShot.data?.snapshot
                                                           .value !=
                                                       null) {
-                                                Map _locationCollections =
+                                                Map _locateCollections =
                                                     snapShot.data?.snapshot
                                                         .value as Map;
-                                                List _locationItems = [];
-                                                _locationCollections.forEach(
+                                                List _locateItems = [];
+                                                _locateCollections.forEach(
                                                     (index, data) =>
-                                                        _locationItems.add({
+                                                        _locateItems.add({
                                                           "key": index,
                                                           ...data
                                                         }));
 
                                                 return ListView.builder(
                                                     itemCount:
-                                                        _locationItems.length,
+                                                        _locateItems.length,
                                                     itemBuilder:
                                                         (context, index) =>
                                                             Card(
@@ -234,20 +236,27 @@ class _AssignmentFormState extends State<AssignmentForm> {
                                                                   Colors.white,
                                                               elevation: 10,
                                                               child: ListTile(
+                                                                  leading:
+                                                                      locationRound(),
+                                                                  subtitle: Text(
+                                                                      _locateItems[
+                                                                              index]
+                                                                          [
+                                                                          'location_Description']),
                                                                   onTap: () {
                                                                     setState(
                                                                         () {
-                                                                      selectedGuard =
-                                                                          _locationItems[index]
+                                                                      selectedLocation =
+                                                                          _locateItems[index]
                                                                               [
-                                                                              'name'];
+                                                                              'location_Name'];
                                                                     });
                                                                     Get.back();
                                                                   },
-                                                                  title: Text(_locationItems[
+                                                                  title: Text(_locateItems[
                                                                           index]
                                                                       [
-                                                                      'name'])),
+                                                                      'location_Name'])),
                                                             ));
                                               }
 
@@ -260,52 +269,92 @@ class _AssignmentFormState extends State<AssignmentForm> {
                                 );
                               },
                               icon: Icon(Icons.move_down)),
-                          leading: Container(
-                            height: 35,
-                            width: 35,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(17.5),
-                              image: DecorationImage(
-                                  image: AssetImage('assets/location.gif'),
-                                  fit: BoxFit.cover),
-                            ),
-                          )),
+                          leading: locationRound()),
                     ),
                   ],
                 ),
-                FormBuilderDateTimePicker(
-                  name: 'start_time',
-                  inputType: InputType.time,
-                  format: DateFormat('h:mm a'),
-                  decoration: const InputDecoration(
-                      labelText: 'Start Time', icon: Icon(Icons.alarm)),
-                  onChanged: (value) {
-                    assignment.startTime = value!;
-                  },
+                const SizedBox(
+                  height: 25,
+                ),
+                Card(
+                  color: Colors.white,
+                  elevation: 10,
+                  child: FormBuilderDateTimePicker(
+                    onSaved: (value) {
+                      startTimeAll = value.toString();
+                    },
+                    controller: _startTimeController,
+                    name: 'start_time',
+                    inputType: InputType.time,
+                    format: DateFormat('h:mm a'),
+                    decoration: const InputDecoration(
+                        alignLabelWithHint: true,
+                        border: InputBorder.none,
+                        label: Text(
+                          "Choose Start Time",
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        contentPadding: EdgeInsets.all(18),
+                        prefixIcon: Icon(Icons.alarm)),
+                    onChanged: (value) {
+                      assignment.startTime = value!;
+                    },
+                  ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
-                FormBuilderDateTimePicker(
-                  name: 'end_time',
-                  inputType: InputType.time,
-                  format: DateFormat('h:mm a'),
-                  decoration: const InputDecoration(
-                      icon: Icon(Icons.lock_clock), labelText: 'End Time'),
-                  onChanged: (value) {
-                    assignment.endTime = value!;
-                  },
+                Card(
+                  color: Colors.white,
+                  elevation: 10,
+                  child: FormBuilderDateTimePicker(
+                    onSaved: (value) {
+                      endTimeAll = value.toString();
+                    },
+                    controller: _endTimeController,
+                    name: 'end_time',
+                    inputType: InputType.time,
+                    format: DateFormat('HH:mm'),
+                    decoration: const InputDecoration(
+                        alignLabelWithHint: true,
+                        border: InputBorder.none,
+                        label: Text(
+                          "Choose End Time",
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        contentPadding: EdgeInsets.all(18),
+                        prefixIcon: Icon(Icons.lock_clock)),
+                    onChanged: (value) {
+                      assignment.startTime = value!;
+                    },
+                  ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     if (_formKey.currentState!.saveAndValidate()) {
-                      // Form data is valid, you can perform the assignment here.
-                      print('Assignment Data:');
-                      print('Guard Name: ${assignment.guardName}');
-                      print('Location Name: ${assignment.locationName}');
-                      print('Start Time: ${assignment.startTime}');
-                      print('End Time: ${assignment.endTime}');
+                      Map<String, String> allocate = {
+                        "Guard_Name": selectedGuard,
+                        "Allocated_Location": selectedLocation,
+                      };
+                      dbref
+                          ?.push()
+                          .set(allocate)
+                          .then((_) => Get.showSnackbar(GetSnackBar(
+                                barBlur: 10,
+                                borderRadius: 10,
+                                duration: Duration(seconds: 3),
+                                titleText: Text(
+                                  "Guard Allocation Success",
+                                  style: GoogleFonts.montserrat(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                message:
+                                    "Guard ${selectedGuard} posted to ${selectedLocation}",
+                                snackPosition: SnackPosition.TOP,
+                                snackStyle: SnackStyle.GROUNDED,
+                              )));
                     }
                   },
                   child: Container(
@@ -336,15 +385,41 @@ class _AssignmentFormState extends State<AssignmentForm> {
   }
 }
 
-void showGuardPop() {
-  Get.defaultDialog(
-      title: "Welcome to Flutter Dev'S",
-      middleText:
-          "FlutterDevs is a protruding flutter app development company with "
-          "an extensive in-house team of 30+ seasoned professionals who know "
-          "exactly what you need to strengthen your business across various dimensions",
-      backgroundColor: Colors.white,
-      titleStyle: TextStyle(color: Colors.white),
-      middleTextStyle: TextStyle(color: Colors.white),
-      radius: 10);
+class locationRound extends StatelessWidget {
+  const locationRound({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 35,
+      width: 35,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(17.5),
+        image: DecorationImage(
+            image: AssetImage('assets/location.gif'), fit: BoxFit.cover),
+      ),
+    );
+  }
 }
+
+class ImgRound extends StatelessWidget {
+  const ImgRound({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 35,
+      width: 35,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(17.5),
+        image: DecorationImage(
+            image: AssetImage('assets/guard.png'), fit: BoxFit.cover),
+      ),
+    );
+  }
+}
+

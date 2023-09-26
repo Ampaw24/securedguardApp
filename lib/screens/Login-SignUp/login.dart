@@ -110,77 +110,80 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 10,
                 ),
-                CurledContainer(
-                  topleft: 68,
-                  bottomright: 68,
-                  boxheight: MediaQuery.of(context).size.height * 1.43,
-                  boxwidth: 350,
-                  color: GreenishgDarkTheme['cardWhite'],
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(top: 30),
-                        child: Text(
-                          "Login",
-                          style: GoogleFonts.montserrat(
-                            textStyle: kLoginTextHead,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: CurledContainer(
+                    topleft: 68,
+                    bottomright: 68,
+                    boxheight: MediaQuery.of(context).size.height * 1.30,
+                    boxwidth: 300,
+                    color: GreenishgDarkTheme['cardWhite'],
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 30),
+                          child: Text(
+                            "Login",
+                            style: GoogleFonts.montserrat(
+                              textStyle: kLoginTextHead,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      FormFieldBox(
-                        errcolor: isErr
-                            ? Color.fromARGB(255, 222, 40, 40)
-                            : Colors.white,
-                        controller: _mailcontroller,
-                        prefixi: Icons.person,
-                        hinttext: isErr ? "Invalid Admin Id" : "Admin Id",
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      FormFieldBox(
-                        errcolor: isErr
-                            ? Color.fromARGB(255, 222, 40, 40)
-                            : Colors.white,
-                        controller: _passwordcontroller,
-                        prefixi: Icons.lock,
-                        suffixi: Icons.remove_red_eye,
-                        hinttext: "Enter Password",
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: CustomButton1(
-                          onpressed: _signInwithMail,
-                          buttonText: "Login",
+                        SizedBox(
+                          height: 30,
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 40,
+                        FormFieldBox(
+                          errcolor: isErr
+                              ? Color.fromARGB(255, 222, 40, 40)
+                              : Colors.white,
+                          controller: _mailcontroller,
+                          prefixi: Icons.person,
+                          hinttext: isErr ? "Invalid Admin Id" : "Admin Id",
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        FormFieldBox(
+                          errcolor: isErr
+                              ? Color.fromARGB(255, 222, 40, 40)
+                              : Colors.white,
+                          controller: _passwordcontroller,
+                          prefixi: Icons.lock,
+                          suffixi: Icons.remove_red_eye,
+                          hinttext: "Enter Password",
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: CustomButton1(
+                            onpressed: _signInwithMail,
+                            buttonText: "Login",
                           ),
-                          SizedBox(
-                            width: 30,
-                          ),
-                          GestureDetector(
-                              onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SignUpPage())),
-                              child: Text("Create Account"))
-                        ],
-                      ),
-                      _isloading
-                          ? SpinKitDualRing(
-                              size: 40,
-                              color: Color(0xff13262E),
-                            )
-                          : Container()
-                    ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 40,
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            GestureDetector(
+                                onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SignUpPage())),
+                                child: Text("Create Account"))
+                          ],
+                        ),
+                        _isloading
+                            ? SpinKitDualRing(
+                                size: 40,
+                                color: Color(0xff13262E),
+                              )
+                            : Container()
+                      ],
+                    ),
                   ),
                 ),
               ],

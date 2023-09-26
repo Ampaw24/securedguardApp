@@ -140,9 +140,6 @@ class _CreatePostState extends State<CreatePost> {
                             color: Colors.blue,
                           )
                         : Container();
-                    final Locations model = Locations(
-                        locationId: _nameController.text,
-                        location_name: _addressdController.text);
 
                     Map<String, String> location = {
                       'loacation_Id': _nameController.text,
@@ -155,25 +152,20 @@ class _CreatePostState extends State<CreatePost> {
                       _addressController.text = " ";
                       _addressdController.text = " ";
 
-                      await DbHelper.addLocation(model);
                       Get.showSnackbar(GetSnackBar(
+                      
                         title: "Location Added",
                         message:
                             "Location Added To database You can Assign Guards ",
                         duration: Duration(seconds: 5),
                       ));
-                      setState(() {
-                        _isLoading = false;
-                      });
-                    }).catchError((_) {
+                    }).catchError((e) {
                       Get.showSnackbar(GetSnackBar(
+                        backgroundColor: Colors.transparent,
                         title: "Error Occured ",
-                        message: "Error Occured while Adding Location",
+                        message: "Error Occured while Adding Location ${e}",
                         duration: Duration(seconds: 5),
                       ));
-                    });
-                    setState(() {
-                      _isLoading = false;
                     });
                   },
                   child: Container(

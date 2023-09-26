@@ -40,8 +40,9 @@ class _DashboardState extends State<Dashboard> {
         "Manage \nGuards", Icons.verified_user_sharp, 5, ManageUsers()),
     DashboardModule("Reports", Icons.report, 5, ReportPage()),
     DashboardModule("Post Sites", Icons.location_on, 5, BTMnav(pageIndex: 1)),
-    DashboardModule("Messages", Icons.message, 5, MessageView()),
-    DashboardModule("Profile", Icons.person, 5, ProfilePage()),//replaced with tips pages
+    DashboardModule("Guard \n Tip", Icons.message, 5, GuardTip()),
+    DashboardModule(
+        "Profile", Icons.person, 5, ProfilePage()), //replaced with tips pages
     DashboardModule("Announ\ncement", Icons.announcement, 5, Announcements()),
   ];
 
