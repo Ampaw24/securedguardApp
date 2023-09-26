@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:atusecurityapp/constants/colors.dart';
 import 'package:atusecurityapp/constants/firebase/firebaseauth.dart';
 import 'package:atusecurityapp/module/storedata.dart';
+import 'package:atusecurityapp/screens/Login-SignUp/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -97,28 +98,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         padding: const EdgeInsets.symmetric(
                           horizontal: 10,
                         ),
-                        child: Center(
-                          child: TextFormField(
-                            controller: _staffIdController,
-                            decoration: InputDecoration(
-                              labelText: FirebaseAuth
-                                      .instance.currentUser!.displayName ??
-                                  "Admin Name",
-                            ),
-                          ),
-                        ),
-                        height: 50,
-                        width: 300,
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                        ),
                         margin: const EdgeInsets.only(top: 20),
                         child: Center(
                           child: TextFormField(
                             controller: _passwordController,
-                            obscureText: true,
+                            obscureText: false,
                             decoration: InputDecoration(
                               labelText: 'New Password',
                             ),
@@ -136,7 +120,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Center(
                           child: TextFormField(
                             controller: _conpasswordController,
-                            obscureText: true,
+                            obscureText: false,
                             decoration: InputDecoration(
                               labelText: 'Confirm Password',
                             ),
@@ -149,12 +133,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       GestureDetector(
                         onTap: () async {
                           try {
-                            await FirebaseAuth.instance.currentUser!
-                                .updateDisplayName(_staffIdController.text);
-
-                            setState(() {});
                             if (_passwordController.text ==
-                                _conpasswordController) {
+                                _conpasswordController.text) {
                               await FirebaseAuth.instance.currentUser!
                                   .updatePassword(_conpasswordController.text)
                                   .then((_) => Get.showSnackbar(GetSnackBar(
@@ -174,7 +154,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               _passwordController.text = " ";
                             }
                           } catch (e) {
-                            print("Error Changing Display Name");
+                            print("Error Changing Display Name ${e}");
                           }
                         },
                         child: Container(
@@ -195,7 +175,17 @@ class _ProfilePageState extends State<ProfilePage> {
                               color: AppColors.btnBlue,
                               borderRadius: BorderRadius.circular(10)),
                         ),
-                      )
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      OutlinedButton.icon(
+                          onPressed: () async {
+                            await FirebaseAuth.instance.signOut();
+                            Get.to(LoginPage());
+                          },
+                          icon: Icon(Icons.logout),
+                          label: Text("Logout"))
                     ],
                   )),
             )
