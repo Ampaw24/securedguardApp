@@ -122,7 +122,7 @@ class _ReportPageState extends State<ReportPage> {
                                         size: 25,
                                         weight: 20,
                                         Icons.read_more,
-                                        color: AppColors.cardBlue,
+                                        color: AppColors.cardBlue, 
                                       ),
                                       decoration: BoxDecoration(
                                           color: Color.fromARGB(

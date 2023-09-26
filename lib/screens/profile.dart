@@ -2,10 +2,13 @@
 
 import 'dart:typed_data';
 import 'package:atusecurityapp/constants/colors.dart';
+import 'package:atusecurityapp/constants/firebase/firebaseauth.dart';
 import 'package:atusecurityapp/module/storedata.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import '../constants/textstyle.dart';
@@ -22,6 +25,7 @@ class _ProfilePageState extends State<ProfilePage> {
   GlobalKey _formkey = GlobalKey();
   Uint8List? _image;
   TextEditingController _passwordController = TextEditingController();
+  TextEditingController _conpasswordController = TextEditingController();
   TextEditingController _staffIdController = TextEditingController();
   void _selectImage() async {
     Uint8List img = await pickImage(ImageSource.gallery);
@@ -30,12 +34,12 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
   void saveProfile() async {
     String username = _staffIdController.text;
     String resp = await StoreData().saveUrldb(name: username, file: _image!);
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
               "Edit Profile",
               style: GoogleFonts.montserrat(
                   fontSize: 20,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w400,
                   color: AppColors.btnBlue),
             ),
           )),
@@ -59,59 +63,30 @@ class _ProfilePageState extends State<ProfilePage> {
             Stack(
               children: [
                 Center(
-                  child: _image != null
-                      ? Container(
-                          margin: const EdgeInsets.only(top: 30),
-                          height: 120,
-                          width: 120,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(60),
-                              image: DecorationImage(
-                                  image: MemoryImage(_image!),
-                                  fit: BoxFit.cover)),
-                        )
-                      : Container(
-                          margin: const EdgeInsets.only(top: 30),
-                          height: 120,
-                          width: 120,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(60),
-                              image: DecorationImage(
-                                  image: NetworkImage(
-                                      "https://avatars.mds.yandex.net/i?id=66cb59b160608b3ca1198d965073955c49b8dd0f-9288635-images-thumbs&n=13"),
-                                  fit: BoxFit.cover)),
-                        ),
-                ),
-                Positioned(
-                    top: 110,
-                    left: 210,
-                    child: GestureDetector(
-                      onTap: _selectImage,
-                      child: Container(
-                        child: Center(
-                          child: Icon(
-                            Icons.add_a_photo,
-                            weight: 10,
-                            color: Colors.white,
-                            size: 15,
-                          ),
-                        ),
-                        height: 30,
-                        width: 30,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: AppColors.btnBlue,
-                        ),
-                      ),
-                    )),
+                    child: Container(
+                  margin: const EdgeInsets.only(top: 20),
+                  height: 120,
+                  width: 120,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(60),
+                      image: DecorationImage(
+                          image: AssetImage(
+                              'assets/Accra Technical University.png'),
+                          fit: BoxFit.cover)),
+                )),
               ],
             ),
             Text(
-              "Admin",
+              "ATU SECURED GUARD APP",
+              style:
+                  GoogleFonts.roboto(fontWeight: FontWeight.w600, fontSize: 15),
+            ),
+            Text(
+              " ${FirebaseAuth.instance.currentUser!.email}  ",
               style: GoogleFonts.roboto(),
             ),
             SizedBox(
-              height: 20,
+              height: 25,
             ),
             Container(
               child: Form(
@@ -126,7 +101,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: TextFormField(
                             controller: _staffIdController,
                             decoration: InputDecoration(
-                              labelText: 'Admin Username ',
+                              labelText: FirebaseAuth
+                                      .instance.currentUser!.displayName ??
+                                  "Admin Name",
                             ),
                           ),
                         ),
@@ -143,7 +120,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             controller: _passwordController,
                             obscureText: true,
                             decoration: InputDecoration(
-                              labelText: 'Password',
+                              labelText: 'New Password',
                             ),
                             // validator: _validatePassword(),
                           ),
@@ -158,7 +135,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         margin: const EdgeInsets.only(top: 20),
                         child: Center(
                           child: TextFormField(
-                            // controller: _passwordController,
+                            controller: _conpasswordController,
                             obscureText: true,
                             decoration: InputDecoration(
                               labelText: 'Confirm Password',
@@ -170,12 +147,41 @@ class _ProfilePageState extends State<ProfilePage> {
                         width: 300,
                       ),
                       GestureDetector(
-                        onTap: saveProfile,
+                        onTap: () async {
+                          try {
+                            await FirebaseAuth.instance.currentUser!
+                                .updateDisplayName(_staffIdController.text);
+
+                            setState(() {});
+                            if (_passwordController.text ==
+                                _conpasswordController) {
+                              await FirebaseAuth.instance.currentUser!
+                                  .updatePassword(_conpasswordController.text)
+                                  .then((_) => Get.showSnackbar(GetSnackBar(
+                                        title: "Update Success",
+                                        message: "User Credentials Updated",
+                                        snackPosition: SnackPosition.BOTTOM,
+                                      )));
+                              _conpasswordController.text = " ";
+                              _passwordController.text = " ";
+                            } else {
+                              Get.showSnackbar(GetSnackBar(
+                                title: "Error Updating",
+                                message:
+                                    "Error Updating User Credentials for User. \n Check password fields",
+                              ));
+                              _conpasswordController.text = " ";
+                              _passwordController.text = " ";
+                            }
+                          } catch (e) {
+                            print("Error Changing Display Name");
+                          }
+                        },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 10,
                           ),
-                          margin: const EdgeInsets.only(top: 20),
+                          margin: const EdgeInsets.only(top: 30),
                           child: Center(
                             child: Text(
                               "Update",

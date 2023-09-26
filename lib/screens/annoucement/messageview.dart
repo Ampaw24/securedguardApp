@@ -20,6 +20,7 @@ class GuardTip extends StatefulWidget {
 }
 
 class _GuardTipState extends State<GuardTip> {
+  
   TextEditingController newsTitleController = TextEditingController();
   TextEditingController newsDescriptionController = TextEditingController();
   TextEditingController file = TextEditingController();
@@ -27,12 +28,8 @@ class _GuardTipState extends State<GuardTip> {
 
   final storageRef = FirebaseStorage.instance.ref();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String selectedFileName = "Attach File";
-  String? filename;
-  PlatformFile? pickedFile;
+
   bool isLoading = false;
-  File? fileToDisplay;
-  //News data fetch
 
   final _newsCollection = FirebaseDatabase.instance.ref('GuardTip');
 
@@ -56,7 +53,7 @@ class _GuardTipState extends State<GuardTip> {
               actions: [
                 Center(
                   child: Text(
-                    "Guard Announcement",
+                    "Create Guard Tips",
                     style: GoogleFonts.montserrat(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
@@ -85,57 +82,55 @@ class _GuardTipState extends State<GuardTip> {
                     List _newsItems = [];
                     _newsCollections.forEach((index, data) =>
                         _newsItems.add({"key": index, ...data}));
-
                     return ListView.builder(
                       shrinkWrap: true,
                       itemCount: _newsItems.length,
                       itemBuilder: (context, index) {
-                        return ListTile(
-                          leading: ClipRRect(
-                              child: Container(
-                                color: AppColors.cardYellow,
-                                width: 50,
-                                height: 50,
-                                child: Center(
-                                    child: Text(
-                                  _newsItems[index]['announcementId'],
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 15,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600),
-                                )),
-                              ),
-                              borderRadius: BorderRadius.circular(10)),
-                          trailing: GestureDetector(
-                            onTap: () async {
-                              await deleteMessage(_newsItems[index]['key']);
+                        return Card(
+                          elevation: 10,
+                          color: Colors.white,
+                          child: ListTile(
+                            leading: ClipRRect(
+                                child: Container(
+                                  color: AppColors.cardYellow,
+                                  width: 50,
+                                  height: 50,
+                                  child: Center(
+                                      child: Icon(FontAwesomeIcons.lightbulb)),
+                                ),
+                                borderRadius: BorderRadius.circular(10)),
+                            trailing: GestureDetector(
+                              onTap: () async {
+                                await deleteMessage(_newsItems[index]['key']);
 
-                              Fluttertoast.showToast(
-                                  msg: "Announcement Deleted!!",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.BOTTOM,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: Colors.black45,
-                                  textColor: Colors.white,
-                                  fontSize: 15.0);
-                            },
-                            child: Icon(
-                              FontAwesomeIcons.trashCan,
-                              size: 18,
-                              color: AppColors.btnBlue,
-                              weight: 3,
+                                Fluttertoast.showToast(
+                                    msg:
+                                        "Tip Deleted!! \n Add Tips for Guards..",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.black45,
+                                    textColor: Colors.white,
+                                    fontSize: 15.0);
+                              },
+                              child: Icon(
+                                FontAwesomeIcons.trashCan,
+                                size: 18,
+                                color: AppColors.btnBlue,
+                                weight: 3,
+                              ),
                             ),
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 15),
+                            title: Text(_newsItems[index]['title'],
+                                style: GoogleFonts.poppins(
+                                    textStyle: headerboldblue2)),
+                            subtitle: Text(_newsItems[index]['description'],
+                                style: GoogleFonts.poppins(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w200,
+                                    textStyle: TextStyle())),
                           ),
-                          contentPadding:
-                              const EdgeInsets.symmetric(horizontal: 15),
-                          title: Text(_newsItems[index]['title'],
-                              style: GoogleFonts.poppins(
-                                  textStyle: headerboldblue2)),
-                          subtitle: Text(_newsItems[index]['description'],
-                              style: GoogleFonts.poppins(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w200,
-                                  textStyle: TextStyle())),
                         );
                       },
                     );
@@ -162,7 +157,7 @@ class _GuardTipState extends State<GuardTip> {
                           height: 15,
                         ),
                         Text(
-                          "Create Annoucement",
+                          "Create Daily Tips",
                           style: GoogleFonts.poppins(
                             textStyle: headerboldblue2,
                           ),
@@ -174,31 +169,6 @@ class _GuardTipState extends State<GuardTip> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  'Create Annoucement Id',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Container(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: TextFormField(
-                                    autocorrect: true,
-                                    maxLength: 3,
-                                    controller: idcontroller,
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                            borderSide: BorderSide(width: 1.5)),
-                                        hintText: 'Create Id ',
-                                        hintStyle: TextStyle(
-                                          fontSize: 12,
-                                          fontStyle: FontStyle.italic,
-                                        )),
-                                  ),
-                                ),
-                                SizedBox(height: 12),
-                                Text(
                                   'Title',
                                   style: TextStyle(
                                     fontSize: 18,
@@ -208,12 +178,12 @@ class _GuardTipState extends State<GuardTip> {
                                 TextFormField(
                                   controller: newsTitleController,
                                   decoration: InputDecoration(
-                                    hintText: 'Create title',
+                                    hintText: 'Tip title',
                                   ),
                                 ),
                                 SizedBox(height: 15),
                                 Text(
-                                  'Detail',
+                                  'Tip Content',
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -238,9 +208,9 @@ class _GuardTipState extends State<GuardTip> {
 
                                     dbRef?.push().set(news).then((_) {
                                       Get.showSnackbar(GetSnackBar(
-                                        title: "Annoucement Posted",
+                                        title: "Guard Tip Posted",
                                         message:
-                                            "Annoucement ${newsTitleController.text} posted",
+                                            "Guard Tip ${newsTitleController.text} posted",
                                         duration: Duration(seconds: 4),
                                         backgroundColor:
                                             Color.fromARGB(255, 43, 51, 54)
@@ -253,9 +223,9 @@ class _GuardTipState extends State<GuardTip> {
                                       newsDescriptionController.text = "";
                                     }).catchError((_) {
                                       Get.showSnackbar(GetSnackBar(
-                                        title: "Announcement Post Error",
+                                        title: "AGuard Tip Post Error",
                                         message:
-                                            "Annoucement ${newsTitleController.text} posted Error",
+                                            "Guard Tip ${newsTitleController.text} posted Error",
                                         duration: Duration(seconds: 4),
                                         backgroundColor:
                                             Color.fromARGB(255, 43, 51, 54)
@@ -271,7 +241,7 @@ class _GuardTipState extends State<GuardTip> {
                                     margin: const EdgeInsets.only(top: 20),
                                     child: Center(
                                       child: Text(
-                                        "Make Announcement",
+                                        "Post Guard Tip",
                                         style: GoogleFonts.montserrat(
                                             textStyle: subheaderBoldbtnwhite),
                                       ),

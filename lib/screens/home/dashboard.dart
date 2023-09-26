@@ -11,6 +11,7 @@ import 'package:atusecurityapp/widgets/dashboardcard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../constants/colors.dart';
 import '../../module/dashboardmodule.dart';
 import '../annoucement/announcements.dart';
@@ -40,7 +41,7 @@ class _DashboardState extends State<Dashboard> {
         "Manage \nGuards", Icons.verified_user_sharp, 5, ManageUsers()),
     DashboardModule("Reports", Icons.report, 5, ReportPage()),
     DashboardModule("Post Sites", Icons.location_on, 5, BTMnav(pageIndex: 1)),
-    DashboardModule("Guard \n Tip", Icons.message, 5, GuardTip()),
+    DashboardModule("Guard \n Tip", FontAwesomeIcons.lightbulb, 5, GuardTip()),
     DashboardModule(
         "Profile", Icons.person, 5, ProfilePage()), //replaced with tips pages
     DashboardModule("Announ\ncement", Icons.announcement, 5, Announcements()),
