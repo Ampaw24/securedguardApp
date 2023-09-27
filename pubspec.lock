@@ -334,14 +334,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.13.1"
-  flutter_lints:
-    dependency: "direct dev"
-    description:
-      name: flutter_lints
-      sha256: a25a15ebbdfc33ab1cd26c63a6ee519df92338a9c10f122adda92938253bef04
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.3"
   flutter_localizations:
     dependency: transitive
     description: flutter
@@ -356,7 +348,7 @@ packages:
     source: hosted
     version: "2.0.16"
   flutter_slidable:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_slidable
       sha256: cc4231579e3eae41ae166660df717f4bad1359c87f4a4322ad8ba1befeb3d2be
@@ -364,7 +356,7 @@ packages:
     source: hosted
     version: "3.0.0"
   flutter_spinkit:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_spinkit
       sha256: b39c753e909d4796906c5696a14daf33639a76e017136c8d82bf3e620ce5bb8e
@@ -406,7 +398,7 @@ packages:
     source: hosted
     version: "4.6.6"
   glassmorphism:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: glassmorphism
       sha256: c0f65ea2681d4ee6d4125b947946d983335cd44765e835cdc039894b076a6e31
@@ -414,7 +406,7 @@ packages:
     source: hosted
     version: "3.0.0"
   google_fonts:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: google_fonts
       sha256: e20ff62b158b96f392bfc8afe29dee1503c94fbea2cbe8186fd59b756b8ae982
@@ -533,14 +525,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.1"
-  lints:
-    dependency: transitive
-    description:
-      name: lints
-      sha256: "0a217c6c989d21039f1498c3ed9f3ed71b354e69873f13a8dfc3c9fe76f1b452"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.1"
   matcher:
     dependency: transitive
     description:

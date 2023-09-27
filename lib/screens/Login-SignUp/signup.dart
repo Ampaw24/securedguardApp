@@ -4,6 +4,7 @@ import 'package:atusecurityapp/constants/colors.dart';
 import 'package:atusecurityapp/screens/Login-SignUp/login.dart';
 import 'package:atusecurityapp/widget/curledContainer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../constants/firebase/firebaseauth.dart';
 import '../../constants/textstyle.dart';
@@ -11,6 +12,7 @@ import '../../widget/custombutton.dart';
 import '../../widget/formfieldbox.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:get/get.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -41,7 +43,7 @@ class _SignUpPageState extends State<SignUpPage> {
     'Female',
   ];
   String? _selectedGender;
-  
+
   List<DropdownMenuItem> getDropdownData() {
     List<DropdownMenuItem<String>> dropdownItem = [];
     for (var index = 0; index < _gender.length; index++) {
@@ -56,7 +58,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return dropdownItem;
   }
 
-  bool? _isLoading;
+  bool _isLoading = false;
   late DatabaseReference ref;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -91,6 +93,17 @@ class _SignUpPageState extends State<SignUpPage> {
                 SizedBox(
                   height: 10,
                 ),
+                _isLoading
+                    ? Stack(
+                        children: [
+                          Positioned(
+                              child: CircularProgressIndicator(
+                            backgroundColor:
+                                GreenishgDarkTheme['themeColorDark'],
+                          )),
+                        ],
+                      )
+                    : Container(),
                 Center(
                   child: Text(
                     "SECURED GUARD APP",
@@ -163,9 +176,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                 });
                               }),
                         ),
-                        SizedBox(
-                          height: 30,
-                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 25),
                           child: CustomButton1(
@@ -175,15 +185,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                 'mail': "${_username.text.trim()}@scmatu.com",
                               };
 
-                              if (!_formKey.currentState!.validate()) {
-                                return;
-                              }
                               setState(() {
                                 _isLoading = true;
                               });
 
                               String result = await _fireAuth.signUp(
-                                email: "${_username.text.trim()}@crsatu.com",
+                                email: "${_username.text.trim()}@scmatu.com",
                                 studentId: _username.text,
                                 name: _username.text,
                                 password: _passwordController.text,
@@ -204,25 +211,17 @@ class _SignUpPageState extends State<SignUpPage> {
                                     builder: (context) => LoginPage(),
                                   ),
                                 );
-                                // Flushbar(
-                                //   title: "SignUp Success",
-                                //   message:
-                                //       "You are now an admin!! Enter Login Credentials to continue \n to dashboard",
-                                //   duration: Duration(seconds: 4),
-                                //   icon: Icon(Icons.done_outline_rounded,
-                                //       color: Colors.white),
-                                //   backgroundColor:
-                                //       Color.fromARGB(255, 52, 59, 61)
-                                //           .withOpacity(0.6),
-                                //   flushbarPosition: FlushbarPosition.TOP,
-                                //   animationDuration:
-                                //       Duration(milliseconds: 500),
-                                //   borderRadius: BorderRadius.circular(10),
-                                //   margin: EdgeInsets.all(8.0),
-                                //   onTap: (flushbar) {
-                                //     flushbar.dismiss();
-                                //   },
-                                // ).show(context);
+                                Get.showSnackbar(GetSnackBar(
+                                  title: "SignUp Success",
+                                  message:
+                                      "You are now an admin!! Enter Login Credentials to continue \n to dashboard",
+                                  duration: Duration(seconds: 4),
+                                  icon: Icon(Icons.done_all,
+                                      color: Color(0xff13262E)),
+                                ));
+                                _username.text = " ";
+                                _passwordController.text = "";
+                                Get.to(LoginPage());
                               } else {
                                 print("$result");
                               }
@@ -232,8 +231,6 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ],
                     )),
-                    
-           
               ],
             ),
           ),
