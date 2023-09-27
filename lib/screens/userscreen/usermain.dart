@@ -59,9 +59,9 @@ class _ManageUsersState extends State<ManageUsers> {
           ),
           preferredSize: const Size.fromHeight(60)),
       body: SingleChildScrollView(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        child: Column(children: [
           Text(
-            "     Guards  ${_total_guards.toString()}",
+            "  Available  Guards ",
             style: GoogleFonts.roboto(textStyle: headerboldblue2),
           ),
           StreamBuilder(
@@ -83,10 +83,7 @@ class _ManageUsersState extends State<ManageUsers> {
                       itemBuilder: (context, index) => Card(
                             elevation: 5,
                             color: Colors.white,
-                            margin: const EdgeInsets.symmetric(vertical: 10),
                             child: ListTile(
-                              trailing:
-                                  GestureDetector(child: Icon(Icons.info)),
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 20, horizontal: 20),
                               leading: ClipRRect(
@@ -103,9 +100,10 @@ class _ManageUsersState extends State<ManageUsers> {
                               ),
                               subtitle: Text(_userItems[index]['email']),
                               title: Text(
-                                _userItems[index]['name'],
-                                style: GoogleFonts.poppins(
-                                    textStyle: headerboldblue2),
+                                _userItems[index]['name']
+                                    .toString()
+                                    .toUpperCase(),
+                                style: GoogleFonts.poppins(),
                               ),
                             ),
                           ));
