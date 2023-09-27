@@ -81,7 +81,7 @@ class _ReportPageState extends State<ReportPage> {
                     !snapShot.hasError &&
                     snapShot.data?.snapshot.value != null) {
                   Map _reportCollections = snapShot.data?.snapshot.value as Map;
-                  List  _reportItems = [];
+                  List _reportItems = [];
 
                   _reportCollections.forEach((index, data) =>
                       _reportItems.add({"key": index, ...data}));
@@ -122,7 +122,7 @@ class _ReportPageState extends State<ReportPage> {
                                         size: 25,
                                         weight: 20,
                                         Icons.read_more,
-                                        color: AppColors.cardBlue, 
+                                        color: AppColors.cardBlue,
                                       ),
                                       decoration: BoxDecoration(
                                           color: Color.fromARGB(
@@ -139,7 +139,7 @@ class _ReportPageState extends State<ReportPage> {
                                   subtitle: Row(
                                     children: [
                                       Icon(
-                                        FontAwesomeIcons.sitemap,
+                                        Icons.location_on,
                                         size: 14,
                                         color: Colors.blue,
                                       ),
@@ -152,19 +152,16 @@ class _ReportPageState extends State<ReportPage> {
                                 ),
                               ),
                               endActionPane: ActionPane(
-                                // A motion is a widget used to control how the pane animates.
                                 motion: const ScrollMotion(),
 
-                                // A pane can dismiss the Slidable.
-                                // dismissible:
-                                //     DismissiblePane(onDismissed: () {}),
+                          
                                 children: [
                                   SlidableAction(
                                     onPressed: (BuildContext context) {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          // Use the AlertDialog widget to create a confirmation dialog
+                             
                                           return AlertDialog(
                                             title: Text('Confirm Delete'),
                                             content: Text(
@@ -189,7 +186,6 @@ class _ReportPageState extends State<ReportPage> {
                                                     await deleteMessage(
                                                         _reportItems[index]
                                                             ['key']);
-                                                 
                                                   });
 
                                                   // Close the dialog

@@ -39,11 +39,8 @@ class ViewReport extends StatelessWidget {
                 margin: const EdgeInsets.only(right: 20),
                 height: 35,
                 width: 35,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("assets/profile.jpg"),
-                        fit: BoxFit.cover),
-                    borderRadius: BorderRadius.circular(20)),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(20)),
               )
             ],
             leading: GestureDetector(

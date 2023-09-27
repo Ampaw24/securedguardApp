@@ -336,6 +336,8 @@ class _AssignmentFormState extends State<AssignmentForm> {
                       Map<String, String> allocate = {
                         "Guard_Name": selectedGuard,
                         "Allocated_Location": selectedLocation,
+                        "Time-Start": _startTimeController.text,
+                        "EndTime": _endTimeController.text,
                       };
                       dbref
                           ?.push()
@@ -422,4 +424,3 @@ class ImgRound extends StatelessWidget {
     );
   }
 }
-

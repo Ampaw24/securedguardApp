@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
     });
     try {
       final user = await _auth.signInWithEmailAndPassword(
-          email: "${_mailcontroller.text.trim()}@staff.sm",
+          email: "${_mailcontroller.text.trim()}@scmatu.com",
           password: _passwordcontroller.text);
       if (user != null) {
         Future.delayed(
