@@ -118,7 +118,9 @@ class _AssignGuardState extends State<AssignGuard> {
                         },
                       );
                     }
-                    return Container();
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
                   })),
         ],
       ),

@@ -260,7 +260,9 @@ class _AssignmentFormState extends State<AssignmentForm> {
                                                             ));
                                               }
 
-                                              return Container();
+                                              return Center(
+                                                  child:
+                                                      CircularProgressIndicator());
                                             }),
                                       ),
                                     ),
