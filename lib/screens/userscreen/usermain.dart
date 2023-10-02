@@ -181,7 +181,9 @@ class _ManageUsersState extends State<ManageUsers> {
                             )),
                   );
                 }
-                return Container();
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
               })
         ],
       ),

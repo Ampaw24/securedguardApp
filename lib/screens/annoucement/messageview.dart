@@ -20,7 +20,6 @@ class GuardTip extends StatefulWidget {
 }
 
 class _GuardTipState extends State<GuardTip> {
-  
   TextEditingController newsTitleController = TextEditingController();
   TextEditingController newsDescriptionController = TextEditingController();
   TextEditingController file = TextEditingController();
@@ -135,7 +134,9 @@ class _GuardTipState extends State<GuardTip> {
                       },
                     );
                   }
-                  return Container();
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }),
           ),
         ),
