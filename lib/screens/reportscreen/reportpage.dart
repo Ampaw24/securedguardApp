@@ -10,6 +10,7 @@ import '../../constants/textstyle.dart';
 import '../../modules/reportsmodule.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:readmore/readmore.dart';
 
 class ReportPage extends StatefulWidget {
   const ReportPage({super.key});
@@ -95,23 +96,6 @@ class _ReportPageState extends State<ReportPage> {
                                 elevation: 4,
                                 color: Colors.white,
                                 child: ListTile(
-                                  trailing: GestureDetector(
-                                    child: Icon(
-                                      Icons.remove_red_eye_rounded,
-                                      color: Colors.blue,
-                                    ),
-                                  ),
-                                  onTap: () => Get.to(
-                                      transition: Transition.fadeIn,
-                                      ViewReport(
-                                          username: _reportItems[index]
-                                              ['username'],
-                                          crimelocation: _reportItems[index]
-                                              ['location'],
-                                          medicalassistance: _reportItems[index]
-                                              ['date-of-crime'],
-                                          discription: _reportItems[index]
-                                              ['evidence'])),
                                   leading: Material(
                                     borderRadius: BorderRadius.circular(15),
                                     elevation: 2,
@@ -121,7 +105,7 @@ class _ReportPageState extends State<ReportPage> {
                                       child: Icon(
                                         size: 25,
                                         weight: 20,
-                                        Icons.read_more,
+                                        Icons.report,
                                         color: AppColors.cardBlue,
                                       ),
                                       decoration: BoxDecoration(
@@ -132,36 +116,32 @@ class _ReportPageState extends State<ReportPage> {
                                     ),
                                   ),
                                   title: Text(
-                                    _reportItems[index]['username'],
+                                    _reportItems[index]['victimName'],
                                     style: GoogleFonts.poppins(
                                         textStyle: headerboldblue2),
                                   ),
-                                  subtitle: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.location_on,
-                                        size: 14,
-                                        color: Colors.blue,
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(_reportItems[index]['location'])
-                                    ],
+                                  subtitle: ReadMoreText(
+                                    " Location: ${_reportItems[index]['location']} \n Crime Date: ${_reportItems[index]['date-of-crime']} \n Any Crime Type:${_reportItems[index]['crimeSelection']}  ",
+                                    trimLines: 1,
+                                    colorClickableText: Colors.pink,
+                                    trimMode: TrimMode.Line,
+                                    trimCollapsedText: 'show more',
+                                    trimExpandedText: ' show less',
+                                    moreStyle: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.blueAccent),
                                   ),
                                 ),
                               ),
                               endActionPane: ActionPane(
                                 motion: const ScrollMotion(),
-
-                          
                                 children: [
                                   SlidableAction(
                                     onPressed: (BuildContext context) {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                             
                                           return AlertDialog(
                                             title: Text('Confirm Delete'),
                                             content: Text(
@@ -207,26 +187,14 @@ class _ReportPageState extends State<ReportPage> {
                             )),
                   );
                 }
-                return Container();
+                return Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 5,
+                  ),
+                );
               })
         ],
       ),
     );
   }
 }
-                                  // onTap: () {
-                                  //   Navigator.push(
-                                  //       context,
-                                  //       MaterialPageRoute(
-                                  //           builder: (context) => ViewReport(
-                                  //                 discription: reports[index]
-                                  //                     .crime_discription,
-                                  //                 crimelocation:
-                                  //                     reports[index].location,
-                                  //                 medicalassistance:
-                                  //                     reports[index]
-                                  //                         .medicalAssistance,
-                                  //                 username:
-                                  //                     reports[index].user_name,
-                                  //               )));
-                                  // },

@@ -1,15 +1,15 @@
-// ignore_for_file: sort_child_properties_last, prefer_const_constructors, no_leading_underscores_for_local_identifiers
+// ignore_for_file: sort_child_properties_last, prefer_const_constructors, list_remove_unrelated_type, no_leading_underscores_for_local_identifiers
 
-import 'package:atusecurityapp/modules/usermodule.dart';
+import 'package:atusecurityapp/screens/reportscreen/viewreport.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import '../../constants/colors.dart';
 import '../../constants/textstyle.dart';
+import '../../modules/reportsmodule.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:get/get.dart';
 
 class ManageUsers extends StatefulWidget {
   const ManageUsers({super.key});
@@ -19,15 +19,14 @@ class ManageUsers extends StatefulWidget {
 }
 
 class _ManageUsersState extends State<ManageUsers> {
-  final _userCollection = FirebaseDatabase.instance.ref('Users');
-  int? _total_guards;
+  final _reportCollection = FirebaseDatabase.instance.ref('Users');
 
   deleteMessage(key) {
-    _userCollection.child(key).remove();
+    _reportCollection.child(key).remove();
   }
 
   DatabaseReference? dbRef;
-
+  int? _reportCount;
   @override
   void initState() {
     super.initState();
@@ -37,20 +36,18 @@ class _ManageUsersState extends State<ManageUsers> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: PreferredSize(
           child: AppBar(
-            title: Text(
-              "Manage Guards",
-              style: GoogleFonts.montserrat(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.blue),
-            ),
-            centerTitle: true,
-            actions: const [
-              SizedBox(
-                width: 50,
+            actions: [
+              Text(
+                "Manage Guards",
+                style: GoogleFonts.montserrat(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.blue),
+              ),
+              const SizedBox(
+                width: 100,
               ),
             ],
             leading: GestureDetector(
@@ -58,60 +55,152 @@ class _ManageUsersState extends State<ManageUsers> {
             backgroundColor: Colors.white,
           ),
           preferredSize: const Size.fromHeight(60)),
-      body: SingleChildScrollView(
-        child: Column(children: [
-          Text(
-            "  Available  Guards ",
-            style: GoogleFonts.roboto(textStyle: headerboldblue2),
+      body: Stack(
+        children: [
+          Positioned(
+            left: 15,
+            child: Text(
+              "Available Guards",
+              style: GoogleFonts.roboto(textStyle: headerboldblue2),
+            ),
           ),
           StreamBuilder(
-              stream: _userCollection.onValue,
+              stream: _reportCollection.onValue,
               builder: (context, snapShot) {
                 if (snapShot.hasData &&
                     !snapShot.hasError &&
                     snapShot.data?.snapshot.value != null) {
-                  Map _userCollections = snapShot.data?.snapshot.value as Map;
-                  List _userItems = [];
-                  _userCollections.forEach(
-                      (index, data) => _userItems.add({"key": index, ...data}));
-                  _total_guards = _userItems.length;
-                  return ListView.builder(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      itemCount: _userItems.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) => Card(
-                            elevation: 5,
-                            color: Colors.white,
-                            child: ListTile(
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 20, horizontal: 20),
-                              leading: ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Container(
-                                  height: 50,
-                                  width: 50,
-                                  color: AppColors.cardBlue,
-                                  child: Icon(
-                                    Icons.supervised_user_circle_outlined,
-                                    color: Colors.white,
+                  Map _reportCollections = snapShot.data?.snapshot.value as Map;
+                  List _reportItems = [];
+
+                  _reportCollections.forEach((index, data) =>
+                      _reportItems.add({"key": index, ...data}));
+                  _reportCount = _reportItems.length;
+                  return Container(
+                    padding: const EdgeInsets.symmetric(vertical: 35),
+                    child: ListView.builder(
+                        itemCount: _reportItems.length,
+                        itemBuilder: (context, index) => Slidable(
+                              child: Card(
+                                elevation: 4,
+                                color: Colors.white,
+                                child: ListTile(
+                                  onTap: () {},
+                                  leading: Material(
+                                    borderRadius: BorderRadius.circular(15),
+                                    elevation: 2,
+                                    child: Container(
+                                      height: 50,
+                                      width: 50,
+                                      child: Icon(
+                                        size: 25,
+                                        weight: 20,
+                                        Icons.person_pin,
+                                        color: AppColors.cardBlue,
+                                      ),
+                                      decoration: BoxDecoration(
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          borderRadius:
+                                              BorderRadius.circular(25)),
+                                    ),
+                                  ),
+                                  title: Text(
+                                    _reportItems[index]['name'],
+                                    style: GoogleFonts.poppins(
+                                        textStyle: headerboldblue2),
+                                  ),
+                                  subtitle: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.email,
+                                        size: 14,
+                                        color: Colors.blue,
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        _reportItems[index]['email'],
+                                        style: TextStyle(fontSize: 12),
+                                      )
+                                    ],
                                   ),
                                 ),
                               ),
-                              subtitle: Text(_userItems[index]['email']),
-                              title: Text(
-                                _userItems[index]['name']
-                                    .toString()
-                                    .toUpperCase(),
-                                style: GoogleFonts.poppins(),
+                              endActionPane: ActionPane(
+                                motion: const ScrollMotion(),
+                                children: [
+                                  SlidableAction(
+                                    onPressed: (BuildContext context) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('Confirm Delete'),
+                                            content: Text(
+                                                'Are you sure you want to delete this item?'),
+                                            actions: <Widget>[
+                                              // Button to cancel the deletion
+                                              TextButton(
+                                                child: Text('Cancel'),
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(); // Close the dialog
+                                                },
+                                              ),
+                                              // Button to confirm and delete
+                                              TextButton(
+                                                child: Text('Delete'),
+                                                onPressed: () {
+                                                  // Remove the item from the list
+
+                                                  // Update the UI by rebuilding the widget
+                                                  setState(() async {
+                                                    await deleteMessage(
+                                                        _reportItems[index]
+                                                            ['key']);
+                                                  });
+
+                                                  // Close the dialog
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                    backgroundColor: Color(0xFFFE4A49),
+                                    foregroundColor: Colors.white,
+                                    icon: FontAwesomeIcons.trashCan,
+                                    label: 'Delete',
+                                  ),
+                                ],
                               ),
-                            ),
-                          ));
+                            )),
+                  );
                 }
                 return Container();
-              }),
-        ]),
+              })
+        ],
       ),
     );
   }
 }
+                                  // onTap: () {
+                                  //   Navigator.push(
+                                  //       context,
+                                  //       MaterialPageRoute(
+                                  //           builder: (context) => ViewReport(
+                                  //                 discription: reports[index]
+                                  //                     .crime_discription,
+                                  //                 crimelocation:
+                                  //                     reports[index].location,
+                                  //                 medicalassistance:
+                                  //                     reports[index]
+                                  //                         .medicalAssistance,
+                                  //                 username:
+                                  //                     reports[index].user_name,
+                                  //               )));
+                                  // },

@@ -204,27 +204,25 @@ class _SignUpPageState extends State<SignUpPage> {
                               setState(() {
                                 _isLoading = false;
                               });
-                              if (result == "success") {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => LoginPage(),
-                                  ),
-                                );
-                                Get.showSnackbar(GetSnackBar(
-                                  title: "SignUp Success",
-                                  message:
-                                      "You are now an admin!! Enter Login Credentials to continue \n to dashboard",
-                                  duration: Duration(seconds: 4),
-                                  icon: Icon(Icons.done_all,
-                                      color: Color(0xff13262E)),
-                                ));
-                                _username.text = " ";
-                                _passwordController.text = "";
-                                Get.to(LoginPage());
-                              } else {
-                                print("$result");
-                              }
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LoginPage(),
+                                ),
+                              );
+                              Get.showSnackbar(GetSnackBar(
+                                title: "SignUp Success",
+                                message:"You are now an admin!! Enter Login Credentials to continue \n to dashboard",
+                                duration: Duration(seconds: 4),
+                                icon: Icon(Icons.done_all,
+                                    color: Color(0xff13262E)),
+                              ));
+                              _username.text = " ";
+                              _passwordController.text = "";
+                              Get.to(LoginPage());
+
+                              print("$result");
                             },
                             buttonText: "Register",
                           ),

@@ -154,11 +154,6 @@ class _NavDrawerState extends State<NavDrawer> {
                           height: 10,
                         ),
                         DrawerItem(
-                          name: 'Help',
-                          icon: Icons.help,
-                          onPressed: () {},
-                        ),
-                        DrawerItem(
                           name: 'Logout',
                           icon: Icons.login_rounded,
                           onPressed: () async {
