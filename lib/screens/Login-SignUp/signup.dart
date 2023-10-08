@@ -43,6 +43,8 @@ class _SignUpPageState extends State<SignUpPage> {
     'Female',
   ];
   String? _selectedGender;
+  bool containsDigit = false;
+  bool passwordCheck = false;
 
   List<DropdownMenuItem> getDropdownData() {
     List<DropdownMenuItem<String>> dropdownItem = [];
@@ -140,6 +142,13 @@ class _SignUpPageState extends State<SignUpPage> {
                           prefixi: Icons.person,
                           hinttext: "Enter UserName",
                         ),
+                        Text(
+                          containsDigit
+                              ? 'Full Name Should not  contains a digits or numbers'
+                              : '',
+                          style:
+                              TextStyle(color: Colors.redAccent, fontSize: 10),
+                        ),
                         SizedBox(
                           height: 20,
                         ),
@@ -148,6 +157,16 @@ class _SignUpPageState extends State<SignUpPage> {
                           prefixi: Icons.lock,
                           suffixi: Icons.remove_red_eye,
                           hinttext: "Enter Password",
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Text(
+                            passwordCheck
+                                ? 'Password length should be more than 7 characters!!'
+                                : '',
+                            style: TextStyle(
+                                color: Colors.redAccent, fontSize: 10),
+                          ),
                         ),
                         SizedBox(
                           height: 15,
@@ -180,49 +199,63 @@ class _SignUpPageState extends State<SignUpPage> {
                           padding: const EdgeInsets.symmetric(horizontal: 25),
                           child: CustomButton1(
                             onpressed: () async {
-                              Map<String, String> admindetails = {
-                                'name': _username.text,
-                                'mail': "${_username.text.trim()}@scmatu.com",
-                              };
+                              if (RegExp(r'\d').hasMatch(_username.text)) {
+                                setState(() {
+                                  containsDigit = true;
+                                });
+                              } else if (_passwordController.text.length <= 7) {
+                                setState(() {
+                                  passwordCheck = true;
+                                });
+                              } else {
+                                setState(() {
+                                  containsDigit = false;
+                                });
+                                Map<String, String> admindetails = {
+                                  'name': _username.text,
+                                  'mail': "${_username.text.trim()}@scmatu.com",
+                                };
 
-                              setState(() {
-                                _isLoading = true;
-                              });
+                                setState(() {
+                                  _isLoading = true;
+                                });
 
-                              String result = await _fireAuth.signUp(
-                                email: "${_username.text.trim()}@scmatu.com",
-                                studentId: _username.text,
-                                name: _username.text,
-                                password: _passwordController.text,
-                              );
-                              ref
-                                  .push()
-                                  .set(admindetails)
-                                  .then((_) => print('Admin Added'))
-                                  .catchError((e) => print(e));
+                                String result = await _fireAuth.signUp(
+                                  email: "${_username.text.trim()}@scmatu.com",
+                                  studentId: _username.text,
+                                  name: _username.text,
+                                  password: _passwordController.text,
+                                );
+                                ref
+                                    .push()
+                                    .set(admindetails)
+                                    .then((_) => print('Admin Added'))
+                                    .catchError((e) => print(e));
 
-                              setState(() {
-                                _isLoading = false;
-                              });
+                                setState(() {
+                                  _isLoading = false;
+                                });
 
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LoginPage(),
-                                ),
-                              );
-                              Get.showSnackbar(GetSnackBar(
-                                title: "SignUp Success",
-                                message:"You are now an admin!! Enter Login Credentials to continue \n to dashboard",
-                                duration: Duration(seconds: 4),
-                                icon: Icon(Icons.done_all,
-                                    color: Color(0xff13262E)),
-                              ));
-                              _username.text = " ";
-                              _passwordController.text = "";
-                              Get.to(LoginPage());
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginPage(),
+                                  ),
+                                );
+                                Get.showSnackbar(GetSnackBar(
+                                  title: "SignUp Success",
+                                  message:
+                                      "You are now an admin!! Enter Login Credentials to continue \n to dashboard",
+                                  duration: Duration(seconds: 4),
+                                  icon: Icon(Icons.done_all,
+                                      color: Color(0xff13262E)),
+                                ));
+                                _username.text = " ";
+                                _passwordController.text = "";
+                                Get.to(LoginPage());
 
-                              print("$result");
+                                print("$result");
+                              }
                             },
                             buttonText: "Register",
                           ),

@@ -136,9 +136,9 @@ class _LoginState extends State<Login> {
                       fontSize: 22,
                       fontStyle: FontStyle.italic,
                     ),
-                    keyboardType: TextInputType.multiline,
+                    keyboardType: TextInputType.name,
                     inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly,
+                      FilteringTextInputFormatter.singleLineFormatter,
                     ]),
               ),
               SizedBox(height: 5),

@@ -41,19 +41,10 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  void _showStudentIdFormatSnackbar() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Student ID should be in the format: 0222220D'),
-        backgroundColor: Colors.red,
-      ),
-    );
-  }
-
   void _showStudentIdNotFoundSnackbar() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Wrong Student ID'),
+        content: Text('Invalid Input'),
         backgroundColor: Colors.red,
       ),
     );
@@ -68,11 +59,8 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  bool isStudentIdValid(String value) {
-    RegExp studentIdPattern = RegExp(r'^[0-9]{7}[A-Za-z]$');
-
-    return studentIdPattern.hasMatch(value);
-  }
+  bool containsDigit = false;
+  bool passwordCheck = false;
 
   @override
   Widget build(BuildContext context) {
@@ -136,10 +124,16 @@ class _RegisterState extends State<Register> {
                       fontSize: 22,
                       fontStyle: FontStyle.italic,
                     ),
-                    keyboardType: TextInputType.multiline,
+                    keyboardType: TextInputType.text,
                     inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly,
+                      FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
                     ]),
+              ),
+              Text(
+                containsDigit
+                    ? 'Full Name Should not  contains a digits or numbers'
+                    : '',
+                style: TextStyle(color: Colors.redAccent, fontSize: 10),
               ),
               SizedBox(height: 5),
               Container(
@@ -158,10 +152,8 @@ class _RegisterState extends State<Register> {
                       fontSize: 22,
                       fontStyle: FontStyle.italic,
                     ),
-                    keyboardType: TextInputType.multiline,
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly,
-                    ]),
+                    keyboardType: TextInputType.text,
+                    inputFormatters: <TextInputFormatter>[]),
               ),
               SizedBox(height: 15),
               Container(
@@ -176,6 +168,15 @@ class _RegisterState extends State<Register> {
                   borderRadius: 10,
                   removeBorder: true,
                   validateMsg: "Field required",
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  passwordCheck
+                      ? 'Password length should be more than 7 characters!!'
+                      : '',
+                  style: TextStyle(color: Colors.redAccent, fontSize: 10),
                 ),
               ),
               SizedBox(height: 15),
@@ -197,53 +198,68 @@ class _RegisterState extends State<Register> {
               SizedBox(height: 30),
               GestureDetector(
                 onTap: () async {
-                  Map<String, String> admindetials = {
-                    'name': _nameController.text,
-                    'mail':
-                        "${_studentIdController.text.trim()}@securityatu.com",
-                  };
-                  if (!_formKey.currentState!.validate()) {
-                    return;
-                  }
+                  if (RegExp(r'\d').hasMatch(_nameController.text)) {
+                    setState(() {
+                      containsDigit = true;
+                    });
+                  } else if (_passwordController.text.length <= 7) {
+                    setState(() {
+                      passwordCheck = true;
+                    });
+                  } else {
+                    setState(() {
+                      containsDigit = false;
+                    });
 
-                  if (_passwordController.text !=
-                      _confirmPasswordController.text) {
-                    _showPasswordMismatchSnackbar();
-                    return;
-                  }
-// Check student ID format
-                  // if (!isStudentIdValid(_studentIdController.text.trim())) {
-                  //   _showStudentIdFormatSnackbar();
-                  //   return;
-                  // }
-                  setState(() {
-                    _isLoading = true;
-                  });
-
-                  String result = await _fireAuth.signUp(
-                    email:
-                        "${_studentIdController.text.trim()}@securityatu.com",
-                    studentId: _studentIdController.text,
-                    name: _nameController.text,
-                    password: _passwordController.text,
-                  );
-                  ref.push().set(admindetials).then((_) => Get.snackbar(
-                      "Registration Success",
-                      "Your User mail is ${_studentIdController.text}@securityatu.com"));
-                  setState(() {
-                    _isLoading = false;
-                  });
-                  try {
-                    if (result == "success") {
-                      _showRegistrationSuccessfulSnackbar();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Login(),
-                          ));
+                    Map<String, String> admindetials = {
+                      'name': _nameController.text,
+                      'mail':
+                          "${_studentIdController.text.trim()}@securityatu.com",
+                    };
+                    if (!_formKey.currentState!.validate()) {
+                      return;
                     }
-                  } catch (e) {
-                    Get.snackbar("Registration Error", "Error Detected!! ${e}");
+
+                    if (_passwordController.text !=
+                        _confirmPasswordController.text) {
+                      _showPasswordMismatchSnackbar();
+                      return;
+                    }
+// Check student ID format
+                    // if (!isStudentIdValid(_studentIdController.text.trim())) {
+                    //   _showStudentIdFormatSnackbar();
+                    //   return;
+                    // }
+                    setState(() {
+                      _isLoading = true;
+                    });
+
+                    String result = await _fireAuth.signUp(
+                      email:
+                          "${_studentIdController.text.trim()}@securityatu.com",
+                      studentId: _studentIdController.text,
+                      name: _nameController.text,
+                      password: _passwordController.text,
+                    );
+                    ref.push().set(admindetials).then((_) => Get.snackbar(
+                        "Registration Success",
+                        "Your User mail is ${_studentIdController.text}@securityatu.com"));
+                    setState(() {
+                      _isLoading = false;
+                    });
+                    try {
+                      if (result == "success") {
+                        _showRegistrationSuccessfulSnackbar();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Login(),
+                            ));
+                      }
+                    } catch (e) {
+                      Get.snackbar(
+                          "Registration Error", "Error Detected!! ${e}");
+                    }
                   }
                 },
                 child: Container(
