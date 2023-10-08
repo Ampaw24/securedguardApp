@@ -62,7 +62,7 @@ class _RegisterState extends State<Register> {
   void _showRegistrationSuccessfulSnackbar() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Login Successful'),
+        content: Text('Registration Successful'),
         backgroundColor: Colors.green,
       ),
     );

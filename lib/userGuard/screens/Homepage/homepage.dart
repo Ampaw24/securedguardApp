@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, use_build_context_synchronously, sort_child_properties_last, unnecessary_string_interpolations
 
+import 'package:atusecurityapp/selectionpage.dart';
 import 'package:atusecurityapp/userGuard/model/adviceModel.dart';
 import 'package:atusecurityapp/userGuard/specs/colors.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../Auth/Login/login.dart';
 import '../../config/deleteCache.dart';
 import '../../config/firebase/firebaseAuth.dart';
@@ -57,9 +59,10 @@ class _HomepageState extends State<Homepage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+
         title: Text(
-          "Legal Advice",
-          style: TextStyle(fontSize: 15),
+          "Home ",
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
         actions: [
           PopupMenuButton(
@@ -88,7 +91,6 @@ class _HomepageState extends State<Homepage> {
             for (var data in tipsList)
               Container(
                   margin: EdgeInsets.all(10),
-                  height: 150,
                   width: MediaQuery.of(context).size.width * 1,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10), color: DEEPGREY),

@@ -2,15 +2,17 @@
 
 import 'dart:convert';
 
-import 'package:atusecurityapp/constants/postsites/postsites.dart';
+import 'package:atusecurityapp/selectionpage.dart';
+import 'package:atusecurityapp/userGuard/specs/buttomNavBar.dart';
 import 'package:atusecurityapp/userGuard/specs/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../Register/register.dart';
 import '../../config/firebase/firebaseAuth.dart';
 import '../../config/firebase/firebaseProfile.dart';
@@ -63,6 +65,10 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: GestureDetector(
+            onTap: () => Get.to(SelectPage()), child: Icon(Icons.arrow_back)),
+      ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Form(
@@ -81,6 +87,16 @@ class _LoginState extends State<Login> {
                   'assets/log.jpg',
                 ),
               ),
+              if (_isLoading)
+                Center(
+                  child: SizedBox(
+                    height: 50,
+                    width: 50,
+                    child: CircularProgressIndicator(
+                      color: BLUEBLACK,
+                    ),
+                  ),
+                ),
               SizedBox(
                 height: 50,
               ),
@@ -110,7 +126,7 @@ class _LoginState extends State<Login> {
                   horizontal: 20,
                 ),
                 child: textFormField(
-                    hintText: "Guard Mail",
+                    hintText: "Guard Username",
                     borderWidth: 2,
                     validateMsg: "Field required",
                     borderRadius: 10,
@@ -189,7 +205,7 @@ class _LoginState extends State<Login> {
                       if (e.code == 'user-not-found') {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Wrong Student ID'),
+                            content: Text('Wrong Credentials'),
                             backgroundColor: Colors.red,
                           ),
                         );
@@ -273,14 +289,6 @@ class _LoginState extends State<Login> {
               SizedBox(
                 height: 60,
               ),
-              if (_isLoading)
-                Center(
-                  child: SizedBox(
-                    height: 50,
-                    width: 50,
-                    child: CircularProgressIndicator(),
-                  ),
-                ),
             ],
           ),
         ),
@@ -305,14 +313,7 @@ class _LoginState extends State<Login> {
               child: Text('Submit'),
               onPressed: () async {
                 String email = _studentIdController.text.trim();
-                //  send a password reset email
-
-                // await _fireAuth.sendPasswordResetEmail(email: email);
-
-                // Close the modal
                 Navigator.of(context).pop();
-
-                // Show a confirmation dialog or message to the user
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {

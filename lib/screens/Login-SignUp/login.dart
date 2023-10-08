@@ -2,6 +2,7 @@
 
 import 'package:atusecurityapp/screens/Login-SignUp/signup.dart';
 import 'package:atusecurityapp/screens/home/dashboard.dart';
+import 'package:atusecurityapp/selectionpage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../constants/colors.dart';
@@ -176,6 +177,12 @@ class _LoginPageState extends State<LoginPage> {
                                 child: Text("Create Account"))
                           ],
                         ),
+                        GestureDetector(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SelectPage())),
+                            child: Text("Go Back")),
                         _isloading
                             ? SpinKitDualRing(
                                 size: 40,
