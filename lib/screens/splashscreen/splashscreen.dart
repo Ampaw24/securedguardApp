@@ -1,12 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:async';
+import 'package:atusecurityapp/selectionpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../constants/colors.dart';
 import '../../constants/textstyle.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../Login-SignUp/login.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void onDoneLoading() {
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => LoginPage()),
+      MaterialPageRoute(builder: (context) => SelectPage()),
     );
   }
 

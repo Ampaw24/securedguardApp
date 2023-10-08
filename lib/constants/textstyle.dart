@@ -9,7 +9,7 @@ const kCompanyTitleText = TextStyle(
 );
 const kCompanysubTitleText = TextStyle(
   color: Colors.white,
-  fontWeight: FontWeight.w100,
+  fontWeight: FontWeight.w300,
   fontSize: 16,
   fontStyle: FontStyle.normal,
 );
